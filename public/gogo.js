@@ -385,9 +385,9 @@ function init() {
     $(go.Link,
       { routing: go.Link.AvoidsNodes, corner: 5 },
       { relinkableFrom: true, relinkableTo: true },
-      $(go.Shape ,{ strokeWidth: 4 },
+      $(go.Shape ,{ strokeWidth: 2 },
         new go.Binding("stroke", "color")),
-      $(go.Shape, { toArrow: "Standard" , scale: 3, strokeWidth: 0 },
+      $(go.Shape, { toArrow: "Standard" , scale: 2, strokeWidth: 0 },
       new go.Binding("fill", "color"))
     );
 

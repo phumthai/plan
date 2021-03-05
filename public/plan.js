@@ -3,19 +3,20 @@ var vecdt = [];
 var cou;
 var arrterm = ["1/1","1/2","S1","2/1","2/2","S2","3/1","3/2","S3","4/1","4/2","S4","5/1","5/2","S5","6/1","6/2","S6","7/1","7/2","S7","8/1","8/2","S8"];
 var locterm = [0.5,99.5,198.5,297.5,396.5,495.5,594.5,693.5,792.5,891.5,990.5,1089.5,1188.5,1287.5,1386.5,1485.5,1584.5,1683.5,1782.5,1881.5,1980.5,2079.5,2178.5,2277.5];
+var gradeA = ["-","A","B+","B","C+","C","D+","D","F","S","U"];
+var gradeS = ["-","S","U"];
+var snarr = [];
 
 window.addEventListener('load',() =>{
-    //dt = localStorage.getItem('Data');
     dt = JSON.parse(localStorage.getItem('Data'))
     cou = localStorage.getItem('course');
     console.log(dt,cou);
-    addRow('mytable');
+    setTimeout(function() {addRow('mytable')}, 100);
+    //addRow('mytable');
     writegraph();
 })
 //create graph format by json
-document.getElementById('shdt').addEventListener("click",() => {
-   writegraph();
-});
+
 function jsontovec(){
     var l = dt.length; // length of data
     
@@ -35,14 +36,15 @@ function jsontovec(){
                 }
             }
         }
-        vecdt.push([dt[i]["ID"],dt[i]["ShortName"],dt[i]["Name"],dt[i]["Credits"],dt[i]["Prerequisite"],dt[i]["Semester"],dt[i]["Grade"],nextpos,"notdone",wi,"-"]);
-        // 0 id    1 shrotname    2 name    3 credit   4 pre    5 semester    6 gradetype   7 nextpos   8 writecheck  9 labcheck  10 grade
+        snarr.push(dt[i]["ShortName"])
+        vecdt.push([dt[i]["ID"],dt[i]["ShortName"],dt[i]["Name"],dt[i]["Credits"],dt[i]["Prerequisite"],dt[i]["Semester"],dt[i]["Grade"],nextpos,"notdone",wi,"-",dt[i]["Semester"]]);
+        // 0 id    1 shrotname    2 name    3 credit   4 pre    5 semester    6 gradetype   7 nextpos   8 writecheck  9 labcheck  10 grade 11 semesterbackup
      }
      console.log(vecdt);
 }
 
 function writegraph(){
-     // dt to vec dt
+
     var l = dt.length; // length of data
     
     jsontovec();
@@ -57,6 +59,7 @@ function writegraph(){
     var keylocx = 12.5;
     var keylocy = 70;
     var term = [];
+    var termindex = [];
     var keylastx = [];
     var keylasty = [];
     var firstposx = -86.5;
@@ -71,17 +74,31 @@ function writegraph(){
     if(x!=0){
         fulltxt += "{\"key\":\"Pool1\", \"text\":\""+cou+"\", \"\isGroup\":true, \"category\":\"Pool\", \"loc\":\"0.5 26.59846649169922\",\"color\":\"lightgray\"},\n";
     }
-    //make term group
+    // make term lens
+    // make index of termarr pos
+    for(var i=0;i<dt.length;i++){
+        if(termindex.includes(arrterm.indexOf(vecdt[i][5]))==false){
+            termindex.push(arrterm.indexOf(vecdt[i][5]));
+            term.push("");
+        }
+    }
+    termindex.sort(function(a, b){return a - b}) // sort index of termarr pos
+    // collect term exit in term[]
     for(var i=0;i<dt.length;i++){
         if(term.includes(vecdt[i][5])==false){
-            term.push(vecdt[i][5]);
-            lens += 1;
-            node += "{\"key\":\"Lane"+ lens + "\",\"text\":\""+ vecdt[i][5] + "\",\"isGroup\":true, \"group\":\"Pool1\", \"color\":\"lightblue\", \"size\":\"130 1000\", \"loc\":\""+ lenlocx + " "+ lenlocy + "\"},\n";
-            lenlocx += 99;
-            keylastx.push(keylocx)
-            keylasty.push(keylocy);
-            keylocx += 99;
+            var atermpos = arrterm.indexOf(vecdt[i][5]);
+            var teindx = termindex.indexOf(atermpos);
+            term[teindx] = vecdt[i][5];
         }
+    }
+    // createlens
+    for(var i=0;i<term.length;i++){
+        lens += 1;
+        node += "{\"key\":\"Lane"+ lens + "\",\"text\":\""+ term[i] + "\",\"isGroup\":true, \"group\":\"Pool1\", \"color\":\"#D2DD81\", \"size\":\"130 1000\", \"loc\":\""+ lenlocx + " "+ lenlocy + "\"},\n";
+        lenlocx += 99;
+        keylastx.push(keylocx)
+        keylasty.push(keylocy);
+        keylocx += 99;
     }
 
     //make node
@@ -90,7 +107,7 @@ function writegraph(){
             var lens = term.indexOf(vecdt[i][5]) + 1;
 
             node += "{\"key\":\""+ vecdt[i][1] +"\", \"group\":\"Lane"+ lens + "\", \"loc\":\"" + keylastx[lens-1] + " " + keylasty[lens-1] + "\"},\n";
-            keylasty[lens-1] += 75;
+            //keylasty[lens-1] += 75;
             vecdt[i][8] = "done";
             
 
@@ -123,6 +140,7 @@ function writegraph(){
                         nextnode.push(vecdt[valnexnode][9][0]);
                     }
 
+                
                 }
                 for(var j=0;j<keylasty.length;j++){
                     if(keylasty[j]<lastposy){
@@ -130,6 +148,7 @@ function writegraph(){
                     }
                 }
             }
+            keylasty[lens-1] += 75;
 
         }
     }
@@ -189,53 +208,168 @@ function addRow(tableID) {
 
         var cell1 = row.insertCell(0);
         var element1 = document.createElement("input");
-        element1.id = 'id_id' + rowCount + '';
-        element1.value = dt[i]["ID"];
+        element1.id = 'id_id' + rowCount;
+        element1.value = vecdt[i][0]; // id
+        element1.type = 'text'
+        element1.readOnly = true;
         cell1.appendChild(element1);
-        
+
         var cell2 = row.insertCell(1);
         var element2 = document.createElement("input");
-        element2.id = 'id_name' + rowCount + '';
-        element2.value = dt[i]["Name"];
-        cell2.appendChild(element2); 
-
+        element2.id = 'id_sn' + rowCount;
+        element2.value = vecdt[i][1]; // shortname
+        element2.type = 'text'
+        element2.readOnly = true;
+        cell2.appendChild(element2);
+        
         var cell3 = row.insertCell(2);
         var element3 = document.createElement("input");
-        element3.id = 'id_credit' + rowCount + '';
-        element3.value = dt[i]["Credits"];
-        cell3.appendChild(element3);
+        element3.id = 'id_name' + rowCount;
+        element3.value = vecdt[i][2]; // name
+        element3.type = 'text'
+        element3.readOnly = true;
+        cell3.appendChild(element3); 
 
-        var grades = ["-","A","B+","B","C+","C","D+","D","F","S","U"];
         var cell4 = row.insertCell(3);
-        var element4 = document.createElement("select");
-        element4.id = 'id_grade' + rowCount + '';
+        var element4 = document.createElement("input");
+        element4.id = 'id_credit' + rowCount;
+        element4.value = vecdt[i][3]; // credit
+        element4.type = 'text'
+        element4.readOnly = true;
+        cell4.appendChild(element4);
+
+        var cell5 = row.insertCell(4);
+        var element5 = document.createElement("input");
+        element5.id = 'id_pre' + rowCount;
+        element5.value = vecdt[i][4]; // pre
+        element5.type = 'text'
+        element5.readOnly = true;
+        cell5.appendChild(element5);
+
+        
+        var cell6 = row.insertCell(5);
+        var element6 = document.createElement("select");
+        element6.id = 'id_term' + rowCount;
+        for(var k=0;k<arrterm.length;k++){
+            var option = document.createElement("option");
+            if(arrterm[k]==vecdt[i][5]){
+                option.value = arrterm[k];
+                option.selected = arrterm[k];
+            }
+            else{
+                option.value = arrterm[k];
+            }
+            //option.value = term[k];
+            option.text = arrterm[k];
+            element6.appendChild(option);
+            cell6.appendChild(element6);
+        }
+
+        var grades = []
+        if(vecdt[i][6]=="A"){
+            grades = gradeA
+        }
+        else{
+            grades = gradeS
+        }
+        var cell7 = row.insertCell(5);
+        var element7 = document.createElement("select");
+        element7.id = 'id_grade' + rowCount;
         for(var j=0;j<grades.length;j++){
             var option = document.createElement("option");
             option.value = grades[j];
             option.text = grades[j];
-            element4.appendChild(option);
-            cell4.appendChild(element4);
-        }
-        //cell4.appendChild(element4);
-
-        var term = ["-","1/1","1/2","S1","2/1","2/2","S2","3/1","3/2","S3","4/1","4/2","S4"];
-        var cell5 = row.insertCell(4);
-        var element5 = document.createElement("select");
-        element5.id = 'id_term' + rowCount + '';
-        for(var k=0;k<term.length;k++){
-            var option = document.createElement("option");
-            if(term[k]==dt[i]["Semester"]){
-                option.value = term[k];
-                option.selected = term[k];
-            }
-            else{
-                option.value = term[k];
-            }
-            //option.value = term[k];
-            option.text = term[k];
-            element5.appendChild(option);
-            cell5.appendChild(element5);
+            element7.appendChild(option);
+            cell7.appendChild(element7);
         }
     }
 
 }
+
+
+
+document.getElementById('regraph').addEventListener("click",() => {
+    
+    //clear writecheck
+    for(var i=0;i<vecdt.length;i++){
+        vecdt[i][8] = "notdone"
+    }
+
+    var table = document.getElementById("mytable");
+    var totalRowCount = table.rows.length;
+    for(var i=1;i<totalRowCount;i++){
+        var iddx = "id_sn" + i.toString();
+        var idvl = document.getElementById(iddx).value;
+        if(snarr.includes(idvl)==true){
+            var sedx = "id_term" + i.toString();
+            var sevl = document.getElementById(sedx).value;
+            var indexofsevl = arrterm.indexOf(sevl);
+            var indexofsemester = arrterm.indexOf(vecdt[i-1][11])
+            if(indexofsevl-indexofsemester>0&&vecdt[i-1][8]=="notdone"){
+                var nextnd = [];
+                var difpos = indexofsemester-indexofsevl;
+                var modpos = (arrterm.indexOf(vecdt[i-1][5]) + 1)%3;
+                var modntpos = (indexofsevl + 1)%3;
+                // check 1->1 or 1->2 or 1->s
+                if(modpos==1){
+                    if(modntpos==1){
+                        difpos += 0;
+                    }
+                    else if(modntpos==2){
+                        difpos += 3;
+                    }
+                    else{
+                        difpos += 3;
+                    }
+                }
+                // check 2->1 or 2->2 or 2->s
+                else if(modpos==2){
+                    if(modntpos==1){
+                        difpos += 3;
+                    }
+                    else if(modntpos==2){
+                        difpos += 0;
+                    }
+                    else{
+                        difpos += 0;
+                    }
+                }
+                // check s->1 or s->2 or s->s
+                else{
+                    if(modntpos==1){
+                        difpos += 3;
+                    }
+                    else if(modntpos==2){
+                        difpos += 3;
+                    }
+                    else{
+                        difpos += 0;
+                    }
+                }
+                vecdt[i-1][5] = sevl;
+                vecdt[i-1][8] = "done";
+                if(vecdt[i-1][7].length!=0){
+                    for(var j=0;j<vecdt[i-1][7].length;j++){
+                        nextnd.push(vecdt[i-1][7][j]);
+                    }
+                }
+                while(nextnd.length!=0){
+                    var valnxnode = nextnd[0];
+                    if(vecdt[valnxnode][7].length!=0){
+                        for(var j=0;j<vecdt[valnxnode][7].length;j++){
+                            nextnode.push(vecdt[valnxnode][7][j]);
+                        }
+                    }
+                    if(vecdt[valnxnode][8]=="notdone"){
+                        var nxnodesepos = arrterm.indexOf(vecdt[valnxnode][5])
+                        console.log(arrterm[nxnodesepos+difpos])
+                        vecdt[valnxnode][5] = arrterm[nxnodesepos+difpos];
+                        vecdt[valnxnode][8] = "done";
+                    }
+                    nextnd.shift();
+                }
+            }
+        }
+    }
+    console.log(vecdt);
+})
