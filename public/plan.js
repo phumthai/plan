@@ -11,13 +11,18 @@ window.addEventListener('load',() =>{
     dt = JSON.parse(localStorage.getItem('Data'))
     cou = localStorage.getItem('course');
     console.log(dt,cou);
-    setTimeout(function() {addRow('mytable')}, 100);
+    jsontovec().then(
+        writegraph().then(
+            addRow('mytable')
+        )
+    )
+    //setTimeout(function() {addRow('mytable')}, 100);
     //addRow('mytable');
-    writegraph();
+    //writegraph();
 })
 //create graph format by json
 
-function jsontovec(){
+async function jsontovec(){
     var l = dt.length; // length of data
     
     for(var i=0;i<l;i++){
@@ -41,13 +46,14 @@ function jsontovec(){
         // 0 id    1 shrotname    2 name    3 credit   4 pre    5 semester    6 gradetype   7 nextpos   8 writecheck  9 labcheck  10 grade 11 semesterbackup
      }
      console.log(vecdt);
+     return vecdt;
 }
 
-function writegraph(){
+async function writegraph(){
 
     var l = dt.length; // length of data
     
-    jsontovec();
+    //jsontovec();
  
  
     var abc ="123",x;
@@ -194,7 +200,7 @@ function writegraph(){
 
 
 
-function addRow(tableID) {
+async function addRow(tableID) {
 
     var x = dt.length;
     
@@ -286,10 +292,24 @@ function addRow(tableID) {
 
 }
 
-
+async function load() {
+    myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
+    myDiagram.delayInitialization(relayoutDiagram);
+}
 
 document.getElementById('regraph').addEventListener("click",() => {
-    
+    document.getElementById('mySavedModel').value = "";
+    termchange().then(
+        writegraph().then(
+            addRow('mytable').then(
+                load()
+            )
+        )
+    )
+
+})
+
+async function termchange(){
     //clear writecheck
     for(var i=0;i<vecdt.length;i++){
         vecdt[i][8] = "notdone"
@@ -304,13 +324,12 @@ document.getElementById('regraph').addEventListener("click",() => {
             var sedx = "id_term" + i.toString();
             var sevl = document.getElementById(sedx).value;
             var indexofsevl = arrterm.indexOf(sevl);
-            var indexofsemester = arrterm.indexOf(vecdt[i-1][11])
+            var indexofsemester = arrterm.indexOf(vecdt[i-1][5])
             if(indexofsevl-indexofsemester>0&&vecdt[i-1][8]=="notdone"){
                 var nextnd = [];
                 var difpos = indexofsevl-indexofsemester;
                 var modpos = (arrterm.indexOf(vecdt[i-1][5]) + 1)%3;
                 var modntpos = (indexofsevl + 1)%3;
-                console.log(difpos,modpos,modntpos);
                 // not jump more 1 year
                 if(difpos<=3){
                     difpos = 3;
@@ -354,7 +373,6 @@ document.getElementById('regraph').addEventListener("click",() => {
                     }
                 }
                 
-                console.log(difpos)
                 vecdt[i-1][5] = sevl;
                 vecdt[i-1][8] = "done";
                 if(vecdt[i-1][7].length!=0){
@@ -366,19 +384,27 @@ document.getElementById('regraph').addEventListener("click",() => {
                     var valnxnode = nextnd[0];
                     if(vecdt[valnxnode][7].length!=0){
                         for(var j=0;j<vecdt[valnxnode][7].length;j++){
-                            nextnode.push(vecdt[valnxnode][7][j]);
+                            nextnd.push(vecdt[valnxnode][7][j]);
                         }
                     }
                     if(vecdt[valnxnode][8]=="notdone"){
                         var nxnodesepos = arrterm.indexOf(vecdt[valnxnode][5])
-                        console.log(arrterm[nxnodesepos+difpos])
                         vecdt[valnxnode][5] = arrterm[nxnodesepos+difpos];
                         vecdt[valnxnode][8] = "done";
                     }
                     nextnd.shift();
                 }
             }
+            else if(indexofsevl-arrterm.indexOf(vecdt[i-1][11])>=0&&vecdt[i-1][8]=="notdone"){
+                vecdt[i-1][5] = sevl;
+                vecdt[i-1][8] = "done";
+            }
         }
     }
-    console.log(vecdt);
-})
+    for(var i=0;i<vecdt.length;i++){
+        vecdt[i][8] = "notdone"
+    }
+    for(var i=totalRowCount-1;i>0;i--){
+        table.deleteRow(i);
+    }
+}
