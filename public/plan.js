@@ -307,45 +307,54 @@ document.getElementById('regraph').addEventListener("click",() => {
             var indexofsemester = arrterm.indexOf(vecdt[i-1][11])
             if(indexofsevl-indexofsemester>0&&vecdt[i-1][8]=="notdone"){
                 var nextnd = [];
-                var difpos = indexofsemester-indexofsevl;
+                var difpos = indexofsevl-indexofsemester;
                 var modpos = (arrterm.indexOf(vecdt[i-1][5]) + 1)%3;
                 var modntpos = (indexofsevl + 1)%3;
-                // check 1->1 or 1->2 or 1->s
-                if(modpos==1){
-                    if(modntpos==1){
-                        difpos += 0;
-                    }
-                    else if(modntpos==2){
-                        difpos += 3;
-                    }
-                    else{
-                        difpos += 3;
-                    }
+                console.log(difpos,modpos,modntpos);
+                // not jump more 1 year
+                if(difpos<=3){
+                    difpos = 3;
                 }
-                // check 2->1 or 2->2 or 2->s
-                else if(modpos==2){
-                    if(modntpos==1){
-                        difpos += 3;
-                    }
-                    else if(modntpos==2){
-                        difpos += 0;
-                    }
-                    else{
-                        difpos += 0;
-                    }
-                }
-                // check s->1 or s->2 or s->s
                 else{
-                    if(modntpos==1){
-                        difpos += 3;
+                    // check 1->1 or 1->2 or 1->s
+                    if(modpos==1){
+                        if(modntpos==1){
+                            difpos += 0;
+                        }
+                        else if(modntpos==2){
+                            difpos += 3;
+                        }
+                        else{
+                            difpos += 0;
+                        }
                     }
-                    else if(modntpos==2){
-                        difpos += 3;
+                    // check 2->1 or 2->2 or 2->s
+                    else if(modpos==2){
+                        if(modntpos==1){
+                            difpos += 3;
+                        }
+                        else if(modntpos==2){
+                            difpos += 0;
+                        }
+                        else{
+                            difpos += 0;
+                        }
                     }
+                    // check s->1 or s->2 or s->s
                     else{
-                        difpos += 0;
+                        if(modntpos==1){
+                            difpos += 3;
+                        }
+                        else if(modntpos==2){
+                            difpos += 3;
+                        }
+                        else{
+                            difpos += 0;
+                        }
                     }
                 }
+                
+                console.log(difpos)
                 vecdt[i-1][5] = sevl;
                 vecdt[i-1][8] = "done";
                 if(vecdt[i-1][7].length!=0){
