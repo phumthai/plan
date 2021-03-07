@@ -115,7 +115,7 @@ async function writegraph(){
             node += "{\"key\":\""+ vecdt[i][1] +"\", \"group\":\"Lane"+ lens + "\", \"loc\":\"" + keylastx[lens-1] + " " + keylasty[lens-1] + "\"},\n";
             //keylasty[lens-1] += 75;
             vecdt[i][8] = "done";
-            
+            keylasty[lens-1] += 75;
 
             if(vecdt[i][7].length!=0||vecdt[i][9].length!=0){
                 var ntle = vecdt[i][7].length;
@@ -154,11 +154,10 @@ async function writegraph(){
                     }
                 }
             }
-            keylasty[lens-1] += 75;
 
         }
     }
-
+    //make link
     for(var i=0;i<vecdt.length;i++){
         if(vecdt[i][4]!=""){
             var checkpre = vecdt[i][4];
@@ -396,8 +395,46 @@ async function termchange(){
                 }
             }
             else if(indexofsevl-arrterm.indexOf(vecdt[i-1][11])>=0&&vecdt[i-1][8]=="notdone"){
+                var nextnd = [];
                 vecdt[i-1][5] = sevl;
                 vecdt[i-1][8] = "done";
+                if(vecdt[i-1][7].length!=0){
+                    for(var j=0;j<vecdt[i-1][7].length;j++){
+                        nextnd.push(vecdt[i-1][7][j]);
+                    }
+                    while(nextnd.length!=0){
+                        var valnxnode = nextnd[0];
+                        if(vecdt[valnxnode][7].length!=0){
+                            for(var j=0;j<vecdt[valnxnode][7].length;j++){
+                                nextnd.push(vecdt[valnxnode][7][j]);
+                            }
+                        }
+                        var oriTpost = arrterm.indexOf(vecdt[i-1][11]);
+                        var orinxTpost = arrterm.indexOf(vecdt[valnxnode][11]);
+                        var dif = orinxTpost - oriTpost;
+                        var ndpost = arrterm.indexOf(vecdt[i-1][5]);
+                        var modndpost = (ndpost+1)%3;
+                        var modorinxpost = (orinxTpost+1)%3;
+                        var modorindpost = (oriTpost+1)%3;
+                        if(modndpost==modorindpost){
+                            vecdt[valnxnode][5] = arrterm[indexofsevl+dif];
+                            vecdt[valnxnode][8] = "done";
+                        }
+                        // else{
+                        //     var d = ~~(((orinxTpost+1)-(oriTpost+1))/3);
+                        //     if(d==0){
+                        //         vecdt[valnxnode][5] = arrterm[indexofsevl+dif];
+                        //         vecdt[valnxnode][8] = "done";
+                        //         console.log("ok")
+                        //     }else{
+                        //         vecdt[valnxnode][5] = arrterm[indexofsevl+dif+(3*d)];
+                        //         vecdt[valnxnode][8] = "done";
+                        //         console.log("oks")
+                        //     }
+                        // }
+                        nextnd.shift();
+                    }
+                }
             }
         }
     }
