@@ -12,9 +12,7 @@ window.addEventListener('load',() =>{
     cou = localStorage.getItem('course');
     console.log(dt,cou);
     jsontovec().then(
-        writegraph().then(
-            addRow('mytable')
-        )
+        writegraph()
     )
     //setTimeout(function() {addRow('mytable')}, 100);
     //addRow('mytable');
@@ -192,117 +190,113 @@ async function writegraph(){
      
      
     document.getElementById("mySavedModel").value = fulltxt;
-     
-    //addRow('mytable');
- 
+
 }
 
 
-
-async function addRow(tableID) {
-
-    var x = dt.length;
+// add table
+async function addRow(tableID,index) {
     
     var table = document.getElementById(tableID);
+    var idx = index;
+    var rowCount = table.rows.length;
+    if(rowCount>1){
+        table.deleteRow(1);
+    }
+    rowCount = table.rows.length;
+    var row = table.insertRow(rowCount);
+
+    var cell1 = row.insertCell(0);
+    var element1 = document.createElement("input");
+    element1.id = 'id_id' + rowCount;
+    element1.value = vecdt[idx][0]; // id
+    element1.type = 'text'
+    element1.readOnly = true;
+    cell1.appendChild(element1);
+
+    var cell2 = row.insertCell(1);
+    var element2 = document.createElement("input");
+    element2.id = 'id_sn' + rowCount;
+    element2.value = vecdt[idx][1]; // shortname
+    element2.type = 'text'
+    element2.readOnly = true;
+    cell2.appendChild(element2);
+    
+    var cell3 = row.insertCell(2);
+    var element3 = document.createElement("input");
+    element3.id = 'id_name' + rowCount;
+    element3.value = vecdt[idx][2]; // name
+    element3.type = 'text'
+    element3.readOnly = true;
+    cell3.appendChild(element3); 
+
+    var cell4 = row.insertCell(3);
+    var element4 = document.createElement("input");
+    element4.id = 'id_credit' + rowCount;
+    element4.value = vecdt[idx][3]; // credit
+    element4.type = 'text'
+    element4.readOnly = true;
+    cell4.appendChild(element4);
+
+    var cell5 = row.insertCell(4);
+    var element5 = document.createElement("input");
+    element5.id = 'id_pre' + rowCount;
+    element5.value = vecdt[idx][4]; // pre
+    element5.type = 'text'
+    element5.readOnly = true;
+    cell5.appendChild(element5);
 
     
-    
-    for(var i=0; i<x;i++){
-        var rowCount = table.rows.length;
-        var row = table.insertRow(rowCount);
-
-        var cell1 = row.insertCell(0);
-        var element1 = document.createElement("input");
-        element1.id = 'id_id' + rowCount;
-        element1.value = vecdt[i][0]; // id
-        element1.type = 'text'
-        element1.readOnly = true;
-        cell1.appendChild(element1);
-
-        var cell2 = row.insertCell(1);
-        var element2 = document.createElement("input");
-        element2.id = 'id_sn' + rowCount;
-        element2.value = vecdt[i][1]; // shortname
-        element2.type = 'text'
-        element2.readOnly = true;
-        cell2.appendChild(element2);
-        
-        var cell3 = row.insertCell(2);
-        var element3 = document.createElement("input");
-        element3.id = 'id_name' + rowCount;
-        element3.value = vecdt[i][2]; // name
-        element3.type = 'text'
-        element3.readOnly = true;
-        cell3.appendChild(element3); 
-
-        var cell4 = row.insertCell(3);
-        var element4 = document.createElement("input");
-        element4.id = 'id_credit' + rowCount;
-        element4.value = vecdt[i][3]; // credit
-        element4.type = 'text'
-        element4.readOnly = true;
-        cell4.appendChild(element4);
-
-        var cell5 = row.insertCell(4);
-        var element5 = document.createElement("input");
-        element5.id = 'id_pre' + rowCount;
-        element5.value = vecdt[i][4]; // pre
-        element5.type = 'text'
-        element5.readOnly = true;
-        cell5.appendChild(element5);
-
-        
-        var cell6 = row.insertCell(5);
-        var element6 = document.createElement("select");
-        element6.id = 'id_term' + rowCount;
-        for(var k=0;k<arrterm.length;k++){
-            var option = document.createElement("option");
-            if(arrterm[k]==vecdt[i][5]){
-                option.value = arrterm[k];
-                option.selected = arrterm[k];
-            }
-            else{
-                option.value = arrterm[k];
-            }
-            //option.value = term[k];
-            option.text = arrterm[k];
-            element6.appendChild(option);
-            cell6.appendChild(element6);
-        }
-
-        var grades = []
-        if(vecdt[i][6]=="A"){
-            grades = gradeA
+    var cell6 = row.insertCell(5);
+    var element6 = document.createElement("select");
+    element6.id = 'id_term' + rowCount;
+    for(var k=0;k<arrterm.length;k++){
+        var option = document.createElement("option");
+        if(arrterm[k]==vecdt[idx][5]){
+            option.value = arrterm[k];
+            option.selected = arrterm[k];
         }
         else{
-            grades = gradeS
+            option.value = arrterm[k];
         }
-        var cell7 = row.insertCell(5);
-        var element7 = document.createElement("select");
-        element7.id = 'id_grade' + rowCount;
-        for(var j=0;j<grades.length;j++){
-            var option = document.createElement("option");
-            option.value = grades[j];
-            option.text = grades[j];
-            element7.appendChild(option);
-            cell7.appendChild(element7);
-        }
+        option.text = arrterm[k];
+        element6.appendChild(option);
+        cell6.appendChild(element6);
     }
+
+    var grades = []
+    if(vecdt[idx][6]=="A"){
+        grades = gradeA
+    }
+    else{
+        grades = gradeS
+    }
+    var cell7 = row.insertCell(5);
+    var element7 = document.createElement("select");
+    element7.id = 'id_grade' + rowCount;
+    for(var j=0;j<grades.length;j++){
+        var option = document.createElement("option");
+        option.value = grades[j];
+        option.text = grades[j];
+        element7.appendChild(option);
+        cell7.appendChild(element7);
+    }
+    
 
 }
 
+// gojs write graph function
 async function load() {
     myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
     myDiagram.delayInitialization(relayoutDiagram);
 }
 
+//rewrite graph
 document.getElementById('regraph').addEventListener("click",() => {
     document.getElementById('mySavedModel').value = "";
     termchange().then(
         writegraph().then(
-            addRow('mytable').then(
-                load()
-            )
+            load()
         )
     )
 
@@ -316,132 +310,158 @@ async function termchange(){
 
     var table = document.getElementById("mytable");
     var totalRowCount = table.rows.length;
-    for(var i=1;i<totalRowCount;i++){
-        var iddx = "id_sn" + i.toString();
-        var idvl = document.getElementById(iddx).value;
-        if(snarr.includes(idvl)==true){
-            var sedx = "id_term" + i.toString();
-            var sevl = document.getElementById(sedx).value;
-            var indexofsevl = arrterm.indexOf(sevl);
-            var indexofsemester = arrterm.indexOf(vecdt[i-1][5])
-            if(indexofsevl-indexofsemester>0&&vecdt[i-1][8]=="notdone"){
-                var nextnd = [];
-                var difpos = indexofsevl-indexofsemester;
-                var modpos = (arrterm.indexOf(vecdt[i-1][5]) + 1)%3;
-                var modntpos = (indexofsevl + 1)%3;
-                // not jump more 1 year
-                if(difpos<=3){
-                    difpos = 3;
-                }
-                else{
-                    // check 1->1 or 1->2 or 1->s
-                    if(modpos==1){
-                        if(modntpos==1){
-                            difpos += 0;
-                        }
-                        else if(modntpos==2){
-                            difpos += 3;
-                        }
-                        else{
-                            difpos += 0;
-                        }
+    var sndx = "id_sn1";
+    var snvl = document.getElementById(sndx).value;
+    if(snarr.includes(snvl)==true){
+        var snidx = snarr.indexOf(snvl);
+        var sedx = "id_term1";
+        var sevl = document.getElementById(sedx).value;
+        var indexofsevl = arrterm.indexOf(sevl);
+        var indexofsemester = arrterm.indexOf(vecdt[snidx][5])
+        if(indexofsevl-indexofsemester>0&&vecdt[snidx][8]=="notdone"){
+            var nextnd = [];
+            var difpos = indexofsevl-indexofsemester;
+            var modpos = (arrterm.indexOf(vecdt[snidx][5]) + 1)%3;
+            var modntpos = (indexofsevl + 1)%3;
+            // not jump more 1 year
+            if(difpos<=3){
+                difpos = 3;
+            }
+            else{
+                // check 1->1 or 1->2 or 1->s
+                if(modpos==1){
+                    if(modntpos==1){
+                        difpos += 0;
                     }
-                    // check 2->1 or 2->2 or 2->s
-                    else if(modpos==2){
-                        if(modntpos==1){
-                            difpos += 3;
-                        }
-                        else if(modntpos==2){
-                            difpos += 0;
-                        }
-                        else{
-                            difpos += 0;
-                        }
+                    else if(modntpos==2){
+                        difpos += 3;
                     }
-                    // check s->1 or s->2 or s->s
                     else{
-                        if(modntpos==1){
-                            difpos += 3;
-                        }
-                        else if(modntpos==2){
-                            difpos += 3;
-                        }
-                        else{
-                            difpos += 0;
-                        }
+                        difpos += 0;
                     }
                 }
-                
-                vecdt[i-1][5] = sevl;
-                vecdt[i-1][8] = "done";
-                if(vecdt[i-1][7].length!=0){
-                    for(var j=0;j<vecdt[i-1][7].length;j++){
-                        nextnd.push(vecdt[i-1][7][j]);
+                // check 2->1 or 2->2 or 2->s
+                else if(modpos==2){
+                    if(modntpos==1){
+                        difpos += 3;
+                    }
+                    else if(modntpos==2){
+                        difpos += 0;
+                    }
+                    else{
+                        difpos += 0;
                     }
                 }
-                while(nextnd.length!=0){
-                    var valnxnode = nextnd[0];
-                    if(vecdt[valnxnode][7].length!=0){
-                        for(var j=0;j<vecdt[valnxnode][7].length;j++){
-                            nextnd.push(vecdt[valnxnode][7][j]);
-                        }
+                // check s->1 or s->2 or s->s
+                else{
+                    if(modntpos==1){
+                        difpos += 3;
                     }
-                    if(vecdt[valnxnode][8]=="notdone"){
-                        var nxnodesepos = arrterm.indexOf(vecdt[valnxnode][5])
-                        vecdt[valnxnode][5] = arrterm[nxnodesepos+difpos];
-                        vecdt[valnxnode][8] = "done";
+                    else if(modntpos==2){
+                        difpos += 3;
                     }
-                    nextnd.shift();
+                    else{
+                        difpos += 0;
+                    }
                 }
             }
-            else if(indexofsevl-arrterm.indexOf(vecdt[i-1][11])>=0&&vecdt[i-1][8]=="notdone"){
-                var nextnd = [];
-                vecdt[i-1][5] = sevl;
-                vecdt[i-1][8] = "done";
-                if(vecdt[i-1][7].length!=0){
-                    for(var j=0;j<vecdt[i-1][7].length;j++){
-                        nextnd.push(vecdt[i-1][7][j]);
-                    }
-                    while(nextnd.length!=0){
-                        var valnxnode = nextnd[0];
-                        if(vecdt[valnxnode][7].length!=0){
-                            for(var j=0;j<vecdt[valnxnode][7].length;j++){
-                                nextnd.push(vecdt[valnxnode][7][j]);
-                            }
-                        }
-                        var oriTpost = arrterm.indexOf(vecdt[i-1][11]);
-                        var orinxTpost = arrterm.indexOf(vecdt[valnxnode][11]);
-                        var dif = orinxTpost - oriTpost;
-                        var ndpost = arrterm.indexOf(vecdt[i-1][5]);
-                        var modndpost = (ndpost+1)%3;
-                        var modorinxpost = (orinxTpost+1)%3;
-                        var modorindpost = (oriTpost+1)%3;
-                        if(modndpost==modorindpost){
-                            vecdt[valnxnode][5] = arrterm[indexofsevl+dif];
-                            vecdt[valnxnode][8] = "done";
-                        }
-                        // else{
-                        //     var d = ~~(((orinxTpost+1)-(oriTpost+1))/3);
-                        //     if(d==0){
-                        //         vecdt[valnxnode][5] = arrterm[indexofsevl+dif];
-                        //         vecdt[valnxnode][8] = "done";
-                        //         console.log("ok")
-                        //     }else{
-                        //         vecdt[valnxnode][5] = arrterm[indexofsevl+dif+(3*d)];
-                        //         vecdt[valnxnode][8] = "done";
-                        //         console.log("oks")
-                        //     }
-                        // }
-                        nextnd.shift();
+            
+            vecdt[snidx][5] = sevl;
+            vecdt[snidx][8] = "done";
+            if(vecdt[snidx][7].length!=0){
+                for(var j=0;j<vecdt[snidx][7].length;j++){
+                    nextnd.push(vecdt[snidx][7][j]);
+                }
+            }
+            while(nextnd.length!=0){
+                var valnxnode = nextnd[0];
+                if(vecdt[valnxnode][7].length!=0){
+                    for(var j=0;j<vecdt[valnxnode][7].length;j++){
+                        nextnd.push(vecdt[valnxnode][7][j]);
                     }
                 }
+                if(vecdt[valnxnode][8]=="notdone"){
+                    var nxnodesepos = arrterm.indexOf(vecdt[valnxnode][5])
+                    vecdt[valnxnode][5] = arrterm[nxnodesepos+difpos];
+                    vecdt[valnxnode][8] = "done";
+                }
+                nextnd.shift();
             }
         }
+        // else if(indexofsevl-arrterm.indexOf(vecdt[i-1][11])>=0&&vecdt[i-1][8]=="notdone"){
+        //     var nextnd = [];
+        //     vecdt[i-1][5] = sevl;
+        //     vecdt[i-1][8] = "done";
+        //     if(vecdt[i-1][7].length!=0){
+        //         for(var j=0;j<vecdt[i-1][7].length;j++){
+        //             nextnd.push(vecdt[i-1][7][j]);
+        //         }
+        //         while(nextnd.length!=0){
+        //             var valnxnode = nextnd[0];
+        //             if(vecdt[valnxnode][7].length!=0){
+        //                 for(var j=0;j<vecdt[valnxnode][7].length;j++){
+        //                     nextnd.push(vecdt[valnxnode][7][j]);
+        //                 }
+        //             }
+        //             var oriTpost = arrterm.indexOf(vecdt[i-1][11]);
+        //             var orinxTpost = arrterm.indexOf(vecdt[valnxnode][11]);
+        //             var dif = orinxTpost - oriTpost;
+        //             var ndpost = arrterm.indexOf(vecdt[i-1][5]);
+        //             var modndpost = (ndpost+1)%3;
+        //             var modorinxpost = (orinxTpost+1)%3;
+        //             var modorindpost = (oriTpost+1)%3;
+        //             if(modndpost==modorindpost){
+        //                 vecdt[valnxnode][5] = arrterm[indexofsevl+dif];
+        //                 vecdt[valnxnode][8] = "done";
+        //             }
+        //             // else{
+        //             //     var d = ~~(((orinxTpost+1)-(oriTpost+1))/3);
+        //             //     if(d==0){
+        //             //         vecdt[valnxnode][5] = arrterm[indexofsevl+dif];
+        //             //         vecdt[valnxnode][8] = "done";
+        //             //         console.log("ok")
+        //             //     }else{
+        //             //         vecdt[valnxnode][5] = arrterm[indexofsevl+dif+(3*d)];
+        //             //         vecdt[valnxnode][8] = "done";
+        //             //         console.log("oks")
+        //             //     }
+        //             // }
+        //             nextnd.shift();
+        //         }
+        //     }
+        // }
     }
+
     for(var i=0;i<vecdt.length;i++){
         vecdt[i][8] = "notdone"
     }
-    for(var i=totalRowCount-1;i>0;i--){
-        table.deleteRow(i);
-    }
+        table.deleteRow(1);
 }
+
+
+// enter when key
+document.getElementById('shName').addEventListener("keyup", (e) => {
+    if (e.keyCode === 13) {
+     e.preventDefault();
+     document.getElementById("shNameSearch").click();
+    }
+})
+
+document.getElementById('shNameSearch').addEventListener("click", () => {
+    var ipn = document.getElementById('shName').value;
+    var uipn = ipn.toUpperCase();
+    var idx;
+    var idxck;
+    if(ipn!=""){
+        for(var i=0;i<vecdt.length;i++){
+            if(uipn==vecdt[i][1]){
+                idx = i;
+                idxck = true;
+                break;
+            }
+        }
+        if(idxck==true){
+            addRow('mytable',idx)
+        }
+    }
+})
