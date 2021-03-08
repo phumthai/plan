@@ -3,7 +3,9 @@ var vecdt = [];
 var cou;
 var arrterm = ["1/1","1/2","S1","2/1","2/2","S2","3/1","3/2","S3","4/1","4/2","S4","5/1","5/2","S5","6/1","6/2","S6","7/1","7/2","S7","8/1","8/2","S8"];
 var locterm = [0.5,99.5,198.5,297.5,396.5,495.5,594.5,693.5,792.5,891.5,990.5,1089.5,1188.5,1287.5,1386.5,1485.5,1584.5,1683.5,1782.5,1881.5,1980.5,2079.5,2178.5,2277.5];
+var term = [];
 var gradeA = ["-","A","B+","B","C+","C","D+","D","F","S","U"];
+var gradeVal = [0,4,3.5,3,2.5,2,1.5,1,0,0,0];
 var gradeS = ["-","S","U"];
 var snarr = [];
 var arrposterm = [0,3,6,9,12,15,18,21,24,27,30,33,36];
@@ -65,7 +67,7 @@ async function writegraph(){
     var lens = 0;
     var keylocx = 12.5;
     var keylocy = 70;
-    var term = [];
+    term = [];
     var termindex = [];
     var keylastx = [];
     var keylasty = [];
@@ -281,7 +283,8 @@ document.getElementById('regraph').addEventListener("click",() => {
     document.getElementById('mySavedModel').value = "";
     termchange().then(
         writegraph().then(
-            load(),toggleRowTable()
+            load(),toggleRowTable(),
+            console.log(term)
         )
     )
 
@@ -569,8 +572,199 @@ function toggleRowTable() {
 // show grade
 document.getElementById('shGrade').addEventListener("click", () => {
     showGrade();
+    toggleRowGrade();
 })
 
+function toggleRowGrade() {
+    var x = document.getElementById("gradetable");
+    if (x.style.display === "block") {
+      x.style.display = "none";
+    } else {
+      x.style.display = "block";
+    }
+  }
+
 function showGrade(){
-    
+    var cradit = 0;
+    var sumgrade = 0;
+    var AverageGrade = 0;
+    var allsuCradit = 0;
+    var detable = document.getElementById("gradetable");
+    var derowCount = detable.rows.length;
+    if(derowCount>1){
+        for(var i=derowCount-1;i>0;i--){
+            detable.deleteRow(i);
+        }
+    }
+    for(var i=0;i<term.length;i++){
+        var subject = [];
+        var sumTgrade = 0;
+        var sumTcredit = 0;
+        var suCredit = 0;
+        for(var j=0;j<vecdt.length;j++){
+            if(vecdt[j][5]==term[i]){
+                subject.push(j);
+            }
+        }
+        for(var j=0;j<subject.length;j++){
+            var table = document.getElementById("gradetable");
+            var rowCount = table.rows.length;
+            var row = table.insertRow(rowCount);
+            var cell1 = row.insertCell(0);
+            var element1 = document.createElement("input");
+            element1.value = vecdt[subject[j]][0]; // id
+            element1.type = 'text'
+            element1.readOnly = true;
+            cell1.appendChild(element1);
+
+            var cell2 = row.insertCell(1);
+            var element2 = document.createElement("input");
+            element2.value = vecdt[subject[j]][1]; // shortname
+            element2.type = 'text'
+            element2.readOnly = true;
+            cell2.appendChild(element2);
+
+            var cell3 = row.insertCell(2);
+            var element3 = document.createElement("input");
+            element3.value = vecdt[subject[j]][2]; // name
+            element3.type = 'text'
+            element3.readOnly = true;
+            cell3.appendChild(element3);
+
+            var cell4 = row.insertCell(3);
+            var element4 = document.createElement("input");
+            element4.value = vecdt[subject[j]][3]; // credit
+            element4.type = 'text'
+            element4.readOnly = true;
+            cell4.appendChild(element4);
+            
+            var cell5 = row.insertCell(4);
+            var element5 = document.createElement("input");
+            element5.value = vecdt[subject[j]][10]; // grade
+            element5.type = 'text'
+            element5.readOnly = true;
+            cell5.appendChild(element5);
+            var g = vecdt[subject[j]][10];
+            if(g=="A"){
+                sumTgrade += 4*vecdt[subject[j]][3];
+                sumgrade += 4*vecdt[subject[j]][3];
+                sumTcredit += vecdt[subject[j]][3];
+                cradit += vecdt[subject[j]][3];
+            }
+            else if(g=="B+"){
+                sumTgrade += 3.5*vecdt[subject[j]][3];
+                sumgrade += 3.5*vecdt[subject[j]][3];
+                sumTcredit += vecdt[subject[j]][3];
+                cradit += vecdt[subject[j]][3];
+            }
+            else if(g=="B"){
+                sumTgrade += 3*vecdt[subject[j]][3];
+                sumgrade += 3*vecdt[subject[j]][3];
+                sumTcredit += vecdt[subject[j]][3];
+                cradit += vecdt[subject[j]][3];
+            }
+            else if(g=="C+"){
+                sumTgrade += 2.5*vecdt[subject[j]][3];
+                sumgrade += 2.5*vecdt[subject[j]][3];
+                sumTcredit += vecdt[subject[j]][3];
+                cradit += vecdt[subject[j]][3];
+            }
+            else if(g=="C"){
+                sumTgrade += 2*vecdt[subject[j]][3];
+                sumgrade += 2*vecdt[subject[j]][3];
+                sumTcredit += vecdt[subject[j]][3];
+                cradit += vecdt[subject[j]][3];
+            }
+            else if(g=="D+"){
+                sumTgrade += 1.5*vecdt[subject[j]][3];
+                sumgrade += 1.5*vecdt[subject[j]][3];
+                sumTcredit += vecdt[subject[j]][3];
+                cradit += vecdt[subject[j]][3];
+            }
+            else if(g=="D"){
+                sumTgrade += 1*vecdt[subject[j]][3];
+                sumgrade += 1*vecdt[subject[j]][3];
+                sumTcredit += vecdt[subject[j]][3];
+                cradit += vecdt[subject[j]][3];
+            }
+            else if(g=="F"){
+                sumTgrade += 0*vecdt[subject[j]][3];
+                sumgrade += 0*vecdt[subject[j]][3];
+                sumTcredit += vecdt[subject[j]][3];
+                cradit += vecdt[subject[j]][3];
+            }
+            else if(g=="S"){
+                sumTcredit += vecdt[subject[j]][3];
+                cradit += vecdt[subject[j]][3];
+                suCredit += vecdt[subject[j]][3];
+                allsuCradit += vecdt[subject[j]][3];
+            }
+            else if(g=="U"){
+                sumTcredit += vecdt[subject[j]][3];
+                cradit += vecdt[subject[j]][3];
+                suCredit += vecdt[subject[j]][3];
+                allsuCradit += vecdt[subject[j]][3]; 
+            }
+
+        }
+        var Tgrade = sumTgrade/(sumTcredit-suCredit);
+
+        rowCount = table.rows.length;
+        var row = table.insertRow(rowCount);
+        var cell1 = row.insertCell(0);
+        var element1 = document.createElement("input");
+        element1.value = vecdt[subject[0]][5]; // id
+        element1.type = 'text'
+        element1.readOnly = true;
+        element1.style = 'text-align:right'
+        cell1.appendChild(element1);
+        cell1.colSpan = 3;
+
+        var cell2 = row.insertCell(1);
+        var element2 = document.createElement("input");
+        element2.value = sumTcredit // sumTcredit
+        element2.type = 'text'
+        element2.readOnly = true;
+        element2.style = 'text-align:right'
+        cell2.appendChild(element2);
+
+        var cell3 = row.insertCell(2);
+        var element3 = document.createElement("input");
+        element3.value = Tgrade // ATgrade
+        element3.type = 'text'
+        element3.readOnly = true;
+        element3.style = 'text-align:right'
+        cell3.appendChild(element3);
+    }
+
+
+    AverageGrade = sumgrade/(cradit-allsuCradit);
+
+    rowCount = table.rows.length;
+    var row = table.insertRow(rowCount);
+    var cell1 = row.insertCell(0);
+    var element1 = document.createElement("input");
+    element1.value = "AverageGrade"; 
+    element1.type = 'text'
+    element1.readOnly = true;
+    element1.style = 'text-align:right'
+    cell1.appendChild(element1);
+    cell1.colSpan = 3;
+
+    var cell2 = row.insertCell(1);
+    var element2 = document.createElement("input");
+    element2.value = cradit // sumcredit
+    element2.type = 'text'
+    element2.readOnly = true;
+    element2.style = 'text-align:right'
+    cell2.appendChild(element2);
+
+    var cell3 = row.insertCell(2);
+    var element3 = document.createElement("input");
+    element3.value = AverageGrade // grade
+    element3.type = 'text'
+    element3.readOnly = true;
+    element3.style = 'text-align:right'
+    cell3.appendChild(element3);
 }
+
