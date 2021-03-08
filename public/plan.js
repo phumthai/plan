@@ -6,6 +6,7 @@ var locterm = [0.5,99.5,198.5,297.5,396.5,495.5,594.5,693.5,792.5,891.5,990.5,10
 var gradeA = ["-","A","B+","B","C+","C","D+","D","F","S","U"];
 var gradeS = ["-","S","U"];
 var snarr = [];
+var arrposterm = [0,3,6,9,12,15,18,21];
 
 window.addEventListener('load',() =>{
     dt = JSON.parse(localStorage.getItem('Data'))
@@ -321,70 +322,58 @@ async function termchange(){
         if(indexofsevl-indexofsemester>0&&vecdt[snidx][8]=="notdone"){
             var nextnd = [];
             var difpos = indexofsevl-indexofsemester;
-            var modpos = (arrterm.indexOf(vecdt[snidx][5]) + 1)%3;
             var modntpos = (indexofsevl + 1)%3;
-            // not jump more 1 year
-            if(difpos<=3){
-                difpos = 3;
-            }
-            else{
-                // check 1->1 or 1->2 or 1->s
-                if(modpos==1){
-                    if(modntpos==1){
-                        difpos += 0;
-                    }
-                    else if(modntpos==2){
-                        difpos += 3;
-                    }
-                    else{
-                        difpos += 0;
-                    }
-                }
-                // check 2->1 or 2->2 or 2->s
-                else if(modpos==2){
-                    if(modntpos==1){
-                        difpos += 3;
-                    }
-                    else if(modntpos==2){
-                        difpos += 0;
-                    }
-                    else{
-                        difpos += 0;
-                    }
-                }
-                // check s->1 or s->2 or s->s
-                else{
-                    if(modntpos==1){
-                        difpos += 3;
-                    }
-                    else if(modntpos==2){
-                        difpos += 3;
-                    }
-                    else{
-                        difpos += 0;
-                    }
-                }
-            }
             
             vecdt[snidx][5] = sevl;
             vecdt[snidx][8] = "done";
+            var modpos = (arrterm.indexOf(vecdt[snidx][5]) + 1)%3;
+            var modoripos = (arrterm.indexOf(vecdt[snidx][11]) + 1)%3;
             if(vecdt[snidx][7].length!=0){
                 for(var j=0;j<vecdt[snidx][7].length;j++){
                     nextnd.push(vecdt[snidx][7][j]);
                 }
             }
+            var lastT = snidx;
             while(nextnd.length!=0){
                 var valnxnode = nextnd[0];
+                var pre = vecdt[valnxnode][4];
+                var presplit = pre.split(' ');
+                var allprenode = [];
+                for(var i=2;i<presplit.length;i++){
+                    for(var j=0;j<vecdt.length;j++){
+                        if(vecdt[j][1]==presplit[i]){
+                            allprenode.push(j);
+                            break;
+                        }
+                    }
+                }
+                var prenode = Math.max.apply(Math,allprenode);
+                var dif = arrterm.indexOf(vecdt[prenode][5]) - arrterm.indexOf(vecdt[valnxnode][5]);
+                if(dif>=0){
+                    var oripreT = vecdt[prenode][11];
+                    var oriT = vecdt[valnxnode][11];
+                    var modoripreT = (arrterm.indexOf(oripreT)+1)%3;
+                    var modoriT = (arrterm.indexOf(oriT)+1)%3;
+                    var diforiterm = arrterm.indexOf(oriT)-arrterm.indexOf(oripreT);
+                    var difpos;
+                    if(diforiterm<3){
+                        difpos = 3;
+                    }
+                    else{
+                        
+                    }
+                }
+                var modorinxpos = (arrterm.indexOf(vecdt[valnxnode][11]) + 1)%3;
                 if(vecdt[valnxnode][7].length!=0){
                     for(var j=0;j<vecdt[valnxnode][7].length;j++){
                         nextnd.push(vecdt[valnxnode][7][j]);
                     }
                 }
-                if(vecdt[valnxnode][8]=="notdone"){
-                    var nxnodesepos = arrterm.indexOf(vecdt[valnxnode][5])
-                    vecdt[valnxnode][5] = arrterm[nxnodesepos+difpos];
-                    vecdt[valnxnode][8] = "done";
-                }
+                // if(vecdt[valnxnode][8]=="notdone"){
+                //     var nxnodesepos = arrterm.indexOf(vecdt[valnxnode][5])
+                //     vecdt[valnxnode][5] = arrterm[nxnodesepos+difpos];
+                //     vecdt[valnxnode][8] = "done";
+                // }
                 nextnd.shift();
             }
         }
