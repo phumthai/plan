@@ -321,19 +321,14 @@ async function termchange(){
         var indexofsemester = arrterm.indexOf(vecdt[snidx][5])
         if(indexofsevl-indexofsemester>0&&vecdt[snidx][8]=="notdone"){
             var nextnd = [];
-            var difpos = indexofsevl-indexofsemester;
-            var modntpos = (indexofsevl + 1)%3;
             
             vecdt[snidx][5] = sevl;
             vecdt[snidx][8] = "done";
-            var modpos = (arrterm.indexOf(vecdt[snidx][5]) + 1)%3;
-            var modoripos = (arrterm.indexOf(vecdt[snidx][11]) + 1)%3;
             if(vecdt[snidx][7].length!=0){
                 for(var j=0;j<vecdt[snidx][7].length;j++){
                     nextnd.push(vecdt[snidx][7][j]);
                 }
             }
-            var lastT = snidx;
             while(nextnd.length!=0){
                 var valnxnode = nextnd[0];
                 var pre = vecdt[valnxnode][4];
@@ -407,6 +402,7 @@ async function termchange(){
                 if(indexofsevl>arrterm.indexOf(vecdt[prenode][5])){
                     vecdt[snidx][5] = sevl;
                     vecdt[snidx][8] = "done";
+                    //////
                     var nextnd = [];
                     if(vecdt[snidx][7].length!=0){
                         for(var j=0;j<vecdt[snidx][7].length;j++){
@@ -429,7 +425,7 @@ async function termchange(){
                         }
                         var prenode = Math.max.apply(Math,allprenode);
                         var dif = arrterm.indexOf(vecdt[prenode][5]) - arrterm.indexOf(vecdt[valnxnode][5]);
-                        if(dif>=0){
+                        if(dif<0){
                             var oripreT = vecdt[prenode][11];
                             var oriT = vecdt[valnxnode][11];
                             var modoripreT = (arrterm.indexOf(oripreT)+1)%3;
@@ -482,7 +478,6 @@ async function termchange(){
                         nextnd.push(vecdt[snidx][7][j]);
                     }
                 }
-                var lastT = snidx;
                 while(nextnd.length!=0){
                     var valnxnode = nextnd[0];
                     var pre = vecdt[valnxnode][4];
@@ -498,7 +493,8 @@ async function termchange(){
                     }
                     var prenode = Math.max.apply(Math,allprenode);
                     var dif = arrterm.indexOf(vecdt[prenode][5]) - arrterm.indexOf(vecdt[valnxnode][5]);
-                    if(dif>=0){
+                    if(dif<0){
+                        console.log("ok")
                         var oripreT = vecdt[prenode][11];
                         var oriT = vecdt[valnxnode][11];
                         var modoripreT = (arrterm.indexOf(oripreT)+1)%3;
@@ -511,13 +507,11 @@ async function termchange(){
                         var difY = oriY-oripreY;
                         var nextY = preY + difY;
                         var TnextY = arrposterm[nextY];
-                        console.log(arrterm[TnextY])
                         var idxT = arrterm[TnextY];
                         var ck = true;
                         while(ck==true){
                             if(arrterm.indexOf(vecdt[prenode][5])<arrterm.indexOf(idxT)){
                                 if((arrterm.indexOf(idxT)+1)%3==modoriT){
-                                    console.log((arrterm.indexOf(idxT)+1)%3,modoriT);
                                     vecdt[valnxnode][5] = idxT;
                                     vecdt[valnxnode][8] = "done";
                                     ck = false;
@@ -547,7 +541,7 @@ async function termchange(){
     for(var i=0;i<vecdt.length;i++){
         vecdt[i][8] = "notdone"
     }
-        table.deleteRow(1);
+    table.deleteRow(1);
 }
 
 
