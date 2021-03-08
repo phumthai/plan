@@ -362,13 +362,11 @@ async function termchange(){
                     var difY = oriY-oripreY;
                     var nextY = preY + difY;
                     var TnextY = arrposterm[nextY];
-                    console.log(arrterm[TnextY])
                     var idxT = arrterm[TnextY];
                     var ck = true;
                     while(ck==true){
                         if(arrterm.indexOf(vecdt[prenode][5])<arrterm.indexOf(idxT)){
                             if((arrterm.indexOf(idxT)+1)%3==modoriT){
-                                console.log((arrterm.indexOf(idxT)+1)%3,modoriT);
                                 vecdt[valnxnode][5] = idxT;
                                 vecdt[valnxnode][8] = "done";
                                 ck = false;
@@ -392,8 +390,157 @@ async function termchange(){
                 nextnd.shift();
             }
         }
-        else if(indexofsevl-arrterm.indexOf(vecdt[i-1][11])>=0&&vecdt[i-1][8]=="notdone"){
-            
+        else if(indexofsevl-indexofsemester<=0&&vecdt[snidx][8]=="notdone"){
+            if(vecdt[snidx][4].includes("in")==true){
+                var pre = vecdt[snidx][4];
+                var presplit = pre.split(' ');
+                var allprenode = [];
+                for(var i=2;i<presplit.length;i++){
+                    for(var j=0;j<vecdt.length;j++){
+                        if(vecdt[j][1]==presplit[i]){
+                            allprenode.push(j);
+                            break;
+                        }
+                    }
+                }
+                var prenode = Math.max.apply(Math,allprenode);
+                if(indexofsevl>arrterm.indexOf(vecdt[prenode][5])){
+                    vecdt[snidx][5] = sevl;
+                    vecdt[snidx][8] = "done";
+                    var nextnd = [];
+                    if(vecdt[snidx][7].length!=0){
+                        for(var j=0;j<vecdt[snidx][7].length;j++){
+                            nextnd.push(vecdt[snidx][7][j]);
+                        }
+                    }
+                    var lastT = snidx;
+                    while(nextnd.length!=0){
+                        var valnxnode = nextnd[0];
+                        var pre = vecdt[valnxnode][4];
+                        var presplit = pre.split(' ');
+                        var allprenode = [];
+                        for(var i=2;i<presplit.length;i++){
+                            for(var j=0;j<vecdt.length;j++){
+                                if(vecdt[j][1]==presplit[i]){
+                                    allprenode.push(j);
+                                    break;
+                                }
+                            }
+                        }
+                        var prenode = Math.max.apply(Math,allprenode);
+                        var dif = arrterm.indexOf(vecdt[prenode][5]) - arrterm.indexOf(vecdt[valnxnode][5]);
+                        if(dif>=0){
+                            var oripreT = vecdt[prenode][11];
+                            var oriT = vecdt[valnxnode][11];
+                            var modoripreT = (arrterm.indexOf(oripreT)+1)%3;
+                            var modoriT = (arrterm.indexOf(oriT)+1)%3;
+                            var modpreT = (arrterm.indexOf(vecdt[prenode][5])+1)%3
+                            var diforiterm = arrterm.indexOf(oriT)-arrterm.indexOf(oripreT);
+                            var oripreY = ~~((arrterm.indexOf(vecdt[prenode][11])+1)/3);
+                            var oriY = ~~((arrterm.indexOf(vecdt[valnxnode][11])+1)/3);
+                            var preY = ~~((arrterm.indexOf(vecdt[prenode][5])+1)/3);
+                            var difY = oriY-oripreY;
+                            var nextY = preY + difY;
+                            var TnextY = arrposterm[nextY];
+                            console.log(arrterm[TnextY])
+                            var idxT = arrterm[TnextY];
+                            var ck = true;
+                            while(ck==true){
+                                if(arrterm.indexOf(vecdt[prenode][5])<arrterm.indexOf(idxT)){
+                                    if((arrterm.indexOf(idxT)+1)%3==modoriT){
+                                        console.log((arrterm.indexOf(idxT)+1)%3,modoriT);
+                                        vecdt[valnxnode][5] = idxT;
+                                        vecdt[valnxnode][8] = "done";
+                                        ck = false;
+                                    }
+                                    else{
+                                        TnextY++;
+                                        idxT = arrterm[TnextY];
+                                    }
+                                }
+                                else{
+                                    TnextY++;
+                                    idxT = arrterm[TnextY];
+                                }
+                            }
+                        }
+                        if(vecdt[valnxnode][7].length!=0){
+                            for(var j=0;j<vecdt[valnxnode][7].length;j++){
+                                nextnd.push(vecdt[valnxnode][7][j]);
+                            }
+                        }
+                        nextnd.shift();
+                    }
+                }
+            }
+            else{
+                vecdt[snidx][5] = sevl;
+                vecdt[snidx][8] = "done";
+                var nextnd = [];
+                if(vecdt[snidx][7].length!=0){
+                    for(var j=0;j<vecdt[snidx][7].length;j++){
+                        nextnd.push(vecdt[snidx][7][j]);
+                    }
+                }
+                var lastT = snidx;
+                while(nextnd.length!=0){
+                    var valnxnode = nextnd[0];
+                    var pre = vecdt[valnxnode][4];
+                    var presplit = pre.split(' ');
+                    var allprenode = [];
+                    for(var i=2;i<presplit.length;i++){
+                        for(var j=0;j<vecdt.length;j++){
+                            if(vecdt[j][1]==presplit[i]){
+                                allprenode.push(j);
+                                break;
+                            }
+                        }
+                    }
+                    var prenode = Math.max.apply(Math,allprenode);
+                    var dif = arrterm.indexOf(vecdt[prenode][5]) - arrterm.indexOf(vecdt[valnxnode][5]);
+                    if(dif>=0){
+                        var oripreT = vecdt[prenode][11];
+                        var oriT = vecdt[valnxnode][11];
+                        var modoripreT = (arrterm.indexOf(oripreT)+1)%3;
+                        var modoriT = (arrterm.indexOf(oriT)+1)%3;
+                        var modpreT = (arrterm.indexOf(vecdt[prenode][5])+1)%3
+                        var diforiterm = arrterm.indexOf(oriT)-arrterm.indexOf(oripreT);
+                        var oripreY = ~~((arrterm.indexOf(vecdt[prenode][11])+1)/3);
+                        var oriY = ~~((arrterm.indexOf(vecdt[valnxnode][11])+1)/3);
+                        var preY = ~~((arrterm.indexOf(vecdt[prenode][5])+1)/3);
+                        var difY = oriY-oripreY;
+                        var nextY = preY + difY;
+                        var TnextY = arrposterm[nextY];
+                        console.log(arrterm[TnextY])
+                        var idxT = arrterm[TnextY];
+                        var ck = true;
+                        while(ck==true){
+                            if(arrterm.indexOf(vecdt[prenode][5])<arrterm.indexOf(idxT)){
+                                if((arrterm.indexOf(idxT)+1)%3==modoriT){
+                                    console.log((arrterm.indexOf(idxT)+1)%3,modoriT);
+                                    vecdt[valnxnode][5] = idxT;
+                                    vecdt[valnxnode][8] = "done";
+                                    ck = false;
+                                }
+                                else{
+                                    TnextY++;
+                                    idxT = arrterm[TnextY];
+                                }
+                            }
+                            else{
+                                TnextY++;
+                                idxT = arrterm[TnextY];
+                            }
+                        }
+                    }
+                    if(vecdt[valnxnode][7].length!=0){
+                        for(var j=0;j<vecdt[valnxnode][7].length;j++){
+                            nextnd.push(vecdt[valnxnode][7][j]);
+                        }
+                    }
+                    nextnd.shift();
+                }
+            }
         }
     }
 
