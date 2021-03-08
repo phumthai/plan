@@ -6,8 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <style>table, th, td {border: 1px solid black;}</style>
   <title>Plan</title>
-  <!-- <link rel="stylesheet" href="/static/css/main.css" />
-	<noscript><link rel="stylesheet" href="/static/css/noscript.css" /></noscript> -->
+  <link rel="stylesheet" href="/static/css/main.css" />
+	<noscript><link rel="stylesheet" href="/static/css/noscript.css" /></noscript>
   <!-- Copyright 1998-2020 by Northwoods Software Corporation. -->
   <meta name="description" content="Vertical swim lanes and pools with collapsible lanes and limited dragging." />
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +15,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
 
   <script src="/static/go.js"></script>
-  <!-- <script src="../assets/js/goSamples.js"></script>  this is only for the GoJS Samples framework -->
   <script id="code"></script>
 
   <style>
@@ -37,34 +36,97 @@
       <div hidden>
         <textarea id="mySavedModel" style="width:100%;height:100px"></textarea>
       </div>
-      <button onclick="load()">Load</button>
-      <button id="regraph">magic</button>
+      <button onclick="load()" hidden>Load</button>
   </div>
-  <div>
-    <h4>Fill in the subjects you want to revise</h4>
-    <input type="text" id="shName">
-    <button id="shNameSearch">Search</button>
+  <div class="row gtr-uniform gtr-25">
+    <div class="col-1 col-12-medium"></div>
+    <div class="col-3 col-12-medium">
+      <h4>Fill in the subjects you want to revise</h4>
+    </div>
+
+    <div class="col-3 col-12-medium">
+      <input type="text" id="shName">
+    </div>
+    <div class="col-2 col-12-xsmall">
+      <input type="button" value="Search" class="button" id="shNameSearch">
+    </div>
+    <div >
+      <input type="button" value="Submit" class="button primary" id="regraph">
+    </div>
   </div>
   <br>
-  <table id="mytable">
+  <table id="mytable" hidden>
     <tr>
       <th>ID</th>
       <th>Shortname</th>
       <th>Name</th>
       <th>Credits</th>
       <th>Prerequisite</th>
-      <th>Grade</th>
       <th>Term</th>
     </tr>
   </table>
+  <br>
+  <div class="row gtr-uniform gtr-25">
+    <div class="col-1 col-12-medium"></div>
+    <div class="col-3 col-12-medium">
+      <h4>Edit your grade</h4>
+    </div>
+    <div class="col-3 col-12-xsmall">
+      <select name="Select Course" id="bachelor">
+        <option value="">Select Term</option>
+      </select>
+    </div>
+    <div class="col-2 col-8-medium">
+      <input type="button" value="Search" class="button" id="editGSearch">
+    </div>
+    <div >
+      <input type="button" value="Submit" class="button primary" id="Gregraph">
+    </div>
+    <div class="col-3 col-12-medium"></div>
+    <div class="col-3 col-12-medium">
+      <table id="termtable">
+        <tr>
+          <th>ID</th>
+          <th>Shortname</th>
+          <th>Name</th>
+          <th>Credits</th>
+          <th>Grade</th>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <br>
+  <div class="row gtr-uniform gtr-25">
+    <div class="col-1 col-12-medium"></div>
+    <div class="col-2 col-12-medium">
+      <h4>Show Grade Result</h4>
+    </div>
+    <div class="col-2 col-8-medium">
+      <input type="button" value="Show" class="button primary" id="shGrade">
+    </div>
+    <div class="col-10 col-8-medium"></div>
+    <div class="col-3 col-8-medium"></div>
+    <div class="col-3 col-8-medium">
+      <table id="gradetable">
+        <tr>
+          <th>ID</th>
+          <th>Shortname</th>
+          <th>Name</th>
+          <th>Credits</th>
+          <th>Grade</th>
+        </tr>
+      </table>
+    </div>
+  </div>
+  
 </body>
-<!-- <script src="/static/css/jquery.min.js"></script>
+<script src="/static/css/jquery.min.js"></script>
 <script src="/static/css/jquery.scrolly.min.js"></script>
 <script src="/static/css/jquery.dropotron.min.js"></script>
 <script src="/static/css/jquery.scrollex.min.js"></script>
 <script src="/static/css/browser.min.js"></script>
 <script src="/static/css/breakpoints.min.js"></script>
-<script src="/static/css/util.js"></script> -->
+<script src="/static/css/util.js"></script>
 <script src="/static/plan.js"></script>
 <script src="/static/gogo.js"></script>
 </html>

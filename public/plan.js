@@ -13,7 +13,9 @@ window.addEventListener('load',() =>{
     cou = localStorage.getItem('course');
     console.log(dt,cou);
     jsontovec().then(
-        writegraph()
+        writegraph().then(
+            load()
+        )
     )
     //setTimeout(function() {addRow('mytable')}, 100);
     //addRow('mytable');
@@ -264,24 +266,6 @@ async function addRow(tableID,index) {
         element6.appendChild(option);
         cell6.appendChild(element6);
     }
-
-    var grades = []
-    if(vecdt[idx][6]=="A"){
-        grades = gradeA
-    }
-    else{
-        grades = gradeS
-    }
-    var cell7 = row.insertCell(5);
-    var element7 = document.createElement("select");
-    element7.id = 'id_grade' + rowCount;
-    for(var j=0;j<grades.length;j++){
-        var option = document.createElement("option");
-        option.value = grades[j];
-        option.text = grades[j];
-        element7.appendChild(option);
-        cell7.appendChild(element7);
-    }
     
 
 }
@@ -297,7 +281,7 @@ document.getElementById('regraph').addEventListener("click",() => {
     document.getElementById('mySavedModel').value = "";
     termchange().then(
         writegraph().then(
-            load()
+            load(),toggleRowTable()
         )
     )
 
@@ -494,7 +478,6 @@ async function termchange(){
                     var prenode = Math.max.apply(Math,allprenode);
                     var dif = arrterm.indexOf(vecdt[prenode][5]) - arrterm.indexOf(vecdt[valnxnode][5]);
                     if(dif<0){
-                        console.log("ok")
                         var oripreT = vecdt[prenode][11];
                         var oriT = vecdt[valnxnode][11];
                         var modoripreT = (arrterm.indexOf(oripreT)+1)%3;
@@ -568,6 +551,26 @@ document.getElementById('shNameSearch').addEventListener("click", () => {
         }
         if(idxck==true){
             addRow('mytable',idx)
+            toggleRowTable();
         }
     }
 })
+
+function toggleRowTable() {
+    var x = document.getElementById("mytable");
+    if (x.style.display === "block") {
+      x.style.display = "none";
+    } else {
+      x.style.display = "block";
+    }
+  }
+
+
+// show grade
+document.getElementById('shGrade').addEventListener("click", () => {
+    showGrade();
+})
+
+function showGrade(){
+    
+}
