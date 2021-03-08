@@ -6,7 +6,7 @@ var locterm = [0.5,99.5,198.5,297.5,396.5,495.5,594.5,693.5,792.5,891.5,990.5,10
 var gradeA = ["-","A","B+","B","C+","C","D+","D","F","S","U"];
 var gradeS = ["-","S","U"];
 var snarr = [];
-var arrposterm = [0,3,6,9,12,15,18,21];
+var arrposterm = [0,3,6,9,12,15,18,21,24,27,30,33,36];
 
 window.addEventListener('load',() =>{
     dt = JSON.parse(localStorage.getItem('Data'))
@@ -354,71 +354,47 @@ async function termchange(){
                     var oriT = vecdt[valnxnode][11];
                     var modoripreT = (arrterm.indexOf(oripreT)+1)%3;
                     var modoriT = (arrterm.indexOf(oriT)+1)%3;
+                    var modpreT = (arrterm.indexOf(vecdt[prenode][5])+1)%3
                     var diforiterm = arrterm.indexOf(oriT)-arrterm.indexOf(oripreT);
-                    var difpos;
-                    if(diforiterm<3){
-                        difpos = 3;
-                    }
-                    else{
-                        
+                    var oripreY = ~~((arrterm.indexOf(vecdt[prenode][11])+1)/3);
+                    var oriY = ~~((arrterm.indexOf(vecdt[valnxnode][11])+1)/3);
+                    var preY = ~~((arrterm.indexOf(vecdt[prenode][5])+1)/3);
+                    var difY = oriY-oripreY;
+                    var nextY = preY + difY;
+                    var TnextY = arrposterm[nextY];
+                    console.log(arrterm[TnextY])
+                    var idxT = arrterm[TnextY];
+                    var ck = true;
+                    while(ck==true){
+                        if(arrterm.indexOf(vecdt[prenode][5])<arrterm.indexOf(idxT)){
+                            if((arrterm.indexOf(idxT)+1)%3==modoriT){
+                                console.log((arrterm.indexOf(idxT)+1)%3,modoriT);
+                                vecdt[valnxnode][5] = idxT;
+                                vecdt[valnxnode][8] = "done";
+                                ck = false;
+                            }
+                            else{
+                                TnextY++;
+                                idxT = arrterm[TnextY];
+                            }
+                        }
+                        else{
+                            TnextY++;
+                            idxT = arrterm[TnextY];
+                        }
                     }
                 }
-                var modorinxpos = (arrterm.indexOf(vecdt[valnxnode][11]) + 1)%3;
                 if(vecdt[valnxnode][7].length!=0){
                     for(var j=0;j<vecdt[valnxnode][7].length;j++){
                         nextnd.push(vecdt[valnxnode][7][j]);
                     }
                 }
-                // if(vecdt[valnxnode][8]=="notdone"){
-                //     var nxnodesepos = arrterm.indexOf(vecdt[valnxnode][5])
-                //     vecdt[valnxnode][5] = arrterm[nxnodesepos+difpos];
-                //     vecdt[valnxnode][8] = "done";
-                // }
                 nextnd.shift();
             }
         }
-        // else if(indexofsevl-arrterm.indexOf(vecdt[i-1][11])>=0&&vecdt[i-1][8]=="notdone"){
-        //     var nextnd = [];
-        //     vecdt[i-1][5] = sevl;
-        //     vecdt[i-1][8] = "done";
-        //     if(vecdt[i-1][7].length!=0){
-        //         for(var j=0;j<vecdt[i-1][7].length;j++){
-        //             nextnd.push(vecdt[i-1][7][j]);
-        //         }
-        //         while(nextnd.length!=0){
-        //             var valnxnode = nextnd[0];
-        //             if(vecdt[valnxnode][7].length!=0){
-        //                 for(var j=0;j<vecdt[valnxnode][7].length;j++){
-        //                     nextnd.push(vecdt[valnxnode][7][j]);
-        //                 }
-        //             }
-        //             var oriTpost = arrterm.indexOf(vecdt[i-1][11]);
-        //             var orinxTpost = arrterm.indexOf(vecdt[valnxnode][11]);
-        //             var dif = orinxTpost - oriTpost;
-        //             var ndpost = arrterm.indexOf(vecdt[i-1][5]);
-        //             var modndpost = (ndpost+1)%3;
-        //             var modorinxpost = (orinxTpost+1)%3;
-        //             var modorindpost = (oriTpost+1)%3;
-        //             if(modndpost==modorindpost){
-        //                 vecdt[valnxnode][5] = arrterm[indexofsevl+dif];
-        //                 vecdt[valnxnode][8] = "done";
-        //             }
-        //             // else{
-        //             //     var d = ~~(((orinxTpost+1)-(oriTpost+1))/3);
-        //             //     if(d==0){
-        //             //         vecdt[valnxnode][5] = arrterm[indexofsevl+dif];
-        //             //         vecdt[valnxnode][8] = "done";
-        //             //         console.log("ok")
-        //             //     }else{
-        //             //         vecdt[valnxnode][5] = arrterm[indexofsevl+dif+(3*d)];
-        //             //         vecdt[valnxnode][8] = "done";
-        //             //         console.log("oks")
-        //             //     }
-        //             // }
-        //             nextnd.shift();
-        //         }
-        //     }
-        // }
+        else if(indexofsevl-arrterm.indexOf(vecdt[i-1][11])>=0&&vecdt[i-1][8]=="notdone"){
+            
+        }
     }
 
     for(var i=0;i<vecdt.length;i++){
