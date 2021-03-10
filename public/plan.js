@@ -198,8 +198,14 @@ async function writegraph(){
     // Grade select list
     var selectTerm = document.getElementById("selectTerm");
     var sTL = selectTerm.options.length;
-    for (i = stl-1; i >= 0; i--) {
+    for (i = sTL-1; i >= 0; i--) {
         selectTerm.options[i] = null;
+    }
+    for(var k=0;k<term.length;k++){
+        var option = document.createElement("option");
+        option.value = term[k];
+        option.text = term[k];
+        selectTerm.appendChild(option);
     }
 
 }
@@ -628,38 +634,33 @@ function showGrade(){
             var rowCount = table.rows.length;
             var row = table.insertRow(rowCount);
             var cell1 = row.insertCell(0);
-            var element1 = document.createElement("input");
-            element1.value = vecdt[subject[j]][0]; // id
-            element1.type = 'text'
-            element1.readOnly = true;
+            var element1 = document.createElement("p");
+            element1.innerHTML = vecdt[subject[j]][0]; // id
+            element1.style.fontWeight = "bold"
             cell1.appendChild(element1);
 
             var cell2 = row.insertCell(1);
-            var element2 = document.createElement("input");
-            element2.value = vecdt[subject[j]][1]; // shortname
-            element2.type = 'text'
-            element2.readOnly = true;
+            var element2 = document.createElement("p");
+            element2.innerHTML = vecdt[subject[j]][1]; // shortname
+            element2.style.fontWeight = "bold"
             cell2.appendChild(element2);
 
             var cell3 = row.insertCell(2);
-            var element3 = document.createElement("input");
-            element3.value = vecdt[subject[j]][2]; // name
-            element3.type = 'text'
-            element3.readOnly = true;
+            var element3 = document.createElement("p");
+            element3.innerHTML = vecdt[subject[j]][2]; // name
+            element3.style.fontWeight = "bold"
             cell3.appendChild(element3);
 
             var cell4 = row.insertCell(3);
-            var element4 = document.createElement("input");
-            element4.value = vecdt[subject[j]][3]; // credit
-            element4.type = 'text'
-            element4.readOnly = true;
+            var element4 = document.createElement("p");
+            element4.innerHTML = vecdt[subject[j]][3]; // credit
+            element4.style.fontWeight = "bold"
             cell4.appendChild(element4);
             
             var cell5 = row.insertCell(4);
-            var element5 = document.createElement("input");
-            element5.value = vecdt[subject[j]][10]; // grade
-            element5.type = 'text'
-            element5.readOnly = true;
+            var element5 = document.createElement("p");
+            element5.innerHTML = vecdt[subject[j]][10]; // grade
+            element5.style.fontWeight = "bold"
             cell5.appendChild(element5);
             var g = vecdt[subject[j]][10];
             if(g=="A"){
@@ -734,28 +735,23 @@ function showGrade(){
         rowCount = table.rows.length;
         var row = table.insertRow(rowCount);
         var cell1 = row.insertCell(0);
-        var element1 = document.createElement("input");
-        element1.value = vecdt[subject[0]][5]; // id
-        element1.type = 'text'
-        element1.readOnly = true;
-        element1.style = 'text-align:right'
+        var element1 = document.createElement("p");
+        element1.innerHTML = vecdt[subject[0]][5]; // id
+        element1.style = 'text-align:center'
+        element1.style.fontWeight = "bold"
         cell1.appendChild(element1);
         cell1.colSpan = 3;
 
         var cell2 = row.insertCell(1);
-        var element2 = document.createElement("input");
-        element2.value = sumTcredit // sumTcredit
-        element2.type = 'text'
-        element2.readOnly = true;
-        element2.style = 'text-align:right'
+        var element2 = document.createElement("p");
+        element2.innerHTML = sumTcredit // sumTcredit
+        element2.style.fontWeight = "bold"
         cell2.appendChild(element2);
 
         var cell3 = row.insertCell(2);
-        var element3 = document.createElement("input");
-        element3.value = Tgrade // ATgrade
-        element3.type = 'text'
-        element3.readOnly = true;
-        element3.style = 'text-align:right'
+        var element3 = document.createElement("p");
+        element3.innerHTML = Tgrade // ATgrade
+        element3.style.fontWeight = "bold"
         cell3.appendChild(element3);
     }
 
@@ -769,28 +765,23 @@ function showGrade(){
     rowCount = table.rows.length;
     var row = table.insertRow(rowCount);
     var cell1 = row.insertCell(0);
-    var element1 = document.createElement("input");
-    element1.value = "AverageGrade"; 
-    element1.type = 'text'
-    element1.readOnly = true;
-    element1.style = 'text-align:right'
+    var element1 = document.createElement("p");
+    element1.innerHTML = "AverageGrade"; 
+    element1.style = 'text-align:center'
+    element1.style.fontWeight = "bold"
     cell1.appendChild(element1);
     cell1.colSpan = 3;
 
     var cell2 = row.insertCell(1);
-    var element2 = document.createElement("input");
-    element2.value = cradit // sumcredit
-    element2.type = 'text'
-    element2.readOnly = true;
-    element2.style = 'text-align:right'
+    var element2 = document.createElement("p");
+    element2.innerHTML = cradit // sumcredit
+    element2.style.fontWeight = "bold"
     cell2.appendChild(element2);
 
     var cell3 = row.insertCell(2);
-    var element3 = document.createElement("input");
-    element3.value = AverageGrade // grade
-    element3.type = 'text'
-    element3.readOnly = true;
-    element3.style = 'text-align:right'
+    var element3 = document.createElement("p");
+    element3.innerHTML = AverageGrade // grade
+    element3.style.fontWeight = "bold"
     cell3.appendChild(element3);
 }
 
@@ -832,6 +823,7 @@ function showAddsubject() {
     element1.id = "addid"; // add id
     element1.type = 'text';
     element1.placeholder = "000000";
+    element1.style.fontWeight = "bold"
     cell1.appendChild(element1);
 
     var cell2 = row.insertCell(1);
@@ -839,6 +831,7 @@ function showAddsubject() {
     element2.id = "addsh"; // add shortname
     element2.type = 'text';
     element2.placeholder = "INPUT000";
+    element2.style.fontWeight = "bold"
     cell2.appendChild(element2);
 
     var cell3 = row.insertCell(2);
@@ -846,6 +839,7 @@ function showAddsubject() {
     element3.id = "addname"; // add name
     element3.type = 'text';
     element3.placeholder = "Input subject 0";
+    element3.style.fontWeight = "bold"
     cell3.appendChild(element3);
 
     var cell4 = row.insertCell(3);
@@ -853,11 +847,13 @@ function showAddsubject() {
     element4.id = "addcredit"; // credit
     element4.type = 'text';
     element4.placeholder = "0";
+    element4.style.fontWeight = "bold"
     cell4.appendChild(element4);
             
     var cell5 = row.insertCell(4);
     var element5 = document.createElement("select");
     element5.id = "addterm";
+    element5.style.fontWeight = "bold"
     for(var k=0;k<arrterm.length;k++){
         var option = document.createElement("option");
         option.value = arrterm[k];
@@ -869,6 +865,7 @@ function showAddsubject() {
     var cell6 = row.insertCell(5);
     var element6 = document.createElement("select");
     element6.id = "addgtype";
+    element6.style.fontWeight = "bold"
     var g = ["A","S"];
     for(var k=0;k<g.length;k++){
         var option = document.createElement("option");
@@ -912,3 +909,45 @@ async function addSubject() {
 }
 
 
+// Edit Grade
+
+document.getElementById('editGSearch').addEventListener("click", () => {
+    toggleEditGrade();
+    showGradeInTerm();
+})
+
+function toggleEditGrade() {
+    var x = document.getElementById("Gregraph");
+    if (x.style.display === "block") {
+      x.style.display = "none";
+    } else {
+      x.style.display = "block";
+    }
+    var y = document.getElementById("editgradetable");
+    if (y.style.display === "block") {
+      y.style.display = "none";
+    } else {
+      y.style.display = "block";
+    }
+}
+
+function showGradeInTerm() {
+    var t = document.getElementById("selectTerm").value;
+    var detable = document.getElementById("editgradetable");
+    var derowCount = detable.rows.length;
+    if(derowCount>1){
+        for(var i=derowCount-1;i>0;i--){
+            detable.deleteRow(i);
+        }
+    }
+    var table = document.getElementById("editgradetable");
+    var rowCount = table.rows.length;
+    var row = table.insertRow(rowCount);
+    var cell1 = row.insertCell(0);
+    var element1 = document.createElement("input");
+    element1.id = "addid"; // add id
+    element1.type = 'text';
+    element1.placeholder = "000000";
+    element1.style.fontWeight = "bold"
+    cell1.appendChild(element1);
+}
