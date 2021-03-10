@@ -45,13 +45,13 @@
     </div>
 
     <div class="col-3 col-12-medium">
-      <input type="text" id="shName">
+      <input type="text" id="shName" placeholder="INPUT101">
     </div>
     <div class="col-2 col-12-xsmall">
-      <input type="button" value="Search" class="button" id="shNameSearch">
-    </div>
-    <div >
-      <input type="button" value="Submit" class="button primary" id="regraph">
+      <ul class="actions">
+        <li><input type="button" value="Search" class="button" id="shNameSearch"></li>
+        <li><input type="button" value="Submit" class="button primary" id="regraph"></li>
+      </ul>
     </div>
   </div>
   <br>
@@ -68,19 +68,40 @@
   <br>
   <div class="row gtr-uniform gtr-25">
     <div class="col-1 col-12-medium"></div>
+    <div class="col-10 col-12-medium">
+      <ul class="actions">
+        <li><input type="button" value="Add Subject" class="button primary" id="shaddsubject"></li>
+        <li id="addsubmit" hidden><input type="button" value="Submit" class="button primary" id="addsubject"></li>
+      </ul>
+    </div>
+    <div id="addsj" hidden>
+      <table id="addtable" >
+        <tr>
+          <th>ID</th>
+          <th>Shortname [Key]</th>
+          <th>Name</th>
+          <th>Credits</th>
+          <th>Term</th>
+          <th>Grade Type</th>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <br>
+  <div class="row gtr-uniform gtr-25">
+    <div class="col-1 col-12-medium"></div>
     <div class="col-3 col-12-medium">
       <h4>Edit your grade</h4>
     </div>
     <div class="col-3 col-12-xsmall">
-      <select name="Select Course" id="bachelor">
-        <option value="">Select Term</option>
+      <select name="Select Term" id="selectTerm">
       </select>
     </div>
     <div class="col-2 col-8-medium">
-      <input type="button" value="Search" class="button" id="editGSearch">
-    </div>
-    <div >
-      <input type="button" value="Submit" class="button primary" id="Gregraph">
+      <ul class="actions">
+        <li><input type="button" value="Search" class="button" id="editGSearch"></li>
+        <li><input type="button" value="Submit" class="button primary" id="Gregraph"></li>
+      </ul>
     </div>
     <div class="col-3 col-12-medium"></div>
     <div class="col-3 col-12-medium">

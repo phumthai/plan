@@ -53,12 +53,13 @@ async function jsontovec(){
 }
 
 async function writegraph(){
-
-    var l = dt.length; // length of data
+    document.getElementById("mySavedModel").value = "";
+    for(var i=0;i<vecdt.length;i++){
+        vecdt[i][8] = "notdone"
+    }
     
-    //jsontovec();
- 
- 
+    var l = dt.length; // length of data
+
     var abc ="123",x;
     var node = "";
     var link = "],\n\"linkDataArray\": [\n";
@@ -85,7 +86,7 @@ async function writegraph(){
     }
     // make term lens
     // make index of termarr pos
-    for(var i=0;i<dt.length;i++){
+    for(var i=0;i<vecdt.length;i++){
         if(termindex.includes(arrterm.indexOf(vecdt[i][5]))==false){
             termindex.push(arrterm.indexOf(vecdt[i][5]));
             term.push("");
@@ -93,12 +94,8 @@ async function writegraph(){
     }
     termindex.sort(function(a, b){return a - b}) // sort index of termarr pos
     // collect term exit in term[]
-    for(var i=0;i<dt.length;i++){
-        if(term.includes(vecdt[i][5])==false){
-            var atermpos = arrterm.indexOf(vecdt[i][5]);
-            var teindx = termindex.indexOf(atermpos);
-            term[teindx] = vecdt[i][5];
-        }
+    for(var i=0;i<termindex.length;i++){
+        term[i] = arrterm[termindex[i]]
     }
     // createlens
     for(var i=0;i<term.length;i++){
@@ -196,6 +193,15 @@ async function writegraph(){
      
     document.getElementById("mySavedModel").value = fulltxt;
 
+
+
+    // Grade select list
+    var selectTerm = document.getElementById("selectTerm");
+    var sTL = selectTerm.options.length;
+    for (i = stl-1; i >= 0; i--) {
+        selectTerm.options[i] = null;
+    }
+
 }
 
 
@@ -215,8 +221,7 @@ async function addRow(tableID,index) {
     var element1 = document.createElement("input");
     element1.id = 'id_id' + rowCount;
     element1.value = vecdt[idx][0]; // id
-    element1.type = 'text'
-    element1.readOnly = true;
+    element1.type = 'text';
     cell1.appendChild(element1);
 
     var cell2 = row.insertCell(1);
@@ -231,8 +236,7 @@ async function addRow(tableID,index) {
     var element3 = document.createElement("input");
     element3.id = 'id_name' + rowCount;
     element3.value = vecdt[idx][2]; // name
-    element3.type = 'text'
-    element3.readOnly = true;
+    element3.type = 'text';
     cell3.appendChild(element3); 
 
     var cell4 = row.insertCell(3);
@@ -240,7 +244,6 @@ async function addRow(tableID,index) {
     element4.id = 'id_credit' + rowCount;
     element4.value = vecdt[idx][3]; // credit
     element4.type = 'text'
-    element4.readOnly = true;
     cell4.appendChild(element4);
 
     var cell5 = row.insertCell(4);
@@ -283,8 +286,7 @@ document.getElementById('regraph').addEventListener("click",() => {
     document.getElementById('mySavedModel').value = "";
     termchange().then(
         writegraph().then(
-            load(),toggleRowTable(),
-            console.log(term)
+            load(),toggleRowTable()
         )
     )
 
@@ -300,8 +302,23 @@ async function termchange(){
     var totalRowCount = table.rows.length;
     var sndx = "id_sn1";
     var snvl = document.getElementById(sndx).value;
+    var idval = document.getElementById("id_id1").value;
+    var nameval = document.getElementById("id_name1").value;
+    var creval = document.getElementById("id_credit1").value;
     if(snarr.includes(snvl)==true){
         var snidx = snarr.indexOf(snvl);
+        if(idval!=vecdt[snidx][0]&&idval!=""){
+            vecdt[snidx][0] = idval;
+        }
+        if(nameval!=vecdt[snidx][2]&&nameval!=""){
+            vecdt[snidx][2] = nameval;
+        }
+        var ncredit = parseInt(creval);
+        if(ncredit!=vecdt[snidx][3]&&creval!=""){
+            if(Number.isInteger(ncredit)==true){
+                vecdt[snidx][3] = ncredit;
+            }
+        }
         var sedx = "id_term1";
         var sevl = document.getElementById(sedx).value;
         var indexofsevl = arrterm.indexOf(sevl);
@@ -386,7 +403,7 @@ async function termchange(){
                     }
                 }
                 var prenode = Math.max.apply(Math,allprenode);
-                if(indexofsevl>arrterm.indexOf(vecdt[prenode][5])){
+                if(indexofsevl>=arrterm.indexOf(vecdt[prenode][5])){
                     vecdt[snidx][5] = sevl;
                     vecdt[snidx][8] = "done";
                     //////
@@ -582,7 +599,7 @@ function toggleRowGrade() {
     } else {
       x.style.display = "block";
     }
-  }
+}
 
 function showGrade(){
     var cradit = 0;
@@ -707,8 +724,13 @@ function showGrade(){
             }
 
         }
-        var Tgrade = sumTgrade/(sumTcredit-suCredit);
-
+        var Tgrade
+        if(sumTcredit==0){
+            Tgrade = 0;
+        }
+        else{
+            Tgrade = sumTgrade/(sumTcredit-suCredit);
+        }
         rowCount = table.rows.length;
         var row = table.insertRow(rowCount);
         var cell1 = row.insertCell(0);
@@ -737,9 +759,13 @@ function showGrade(){
         cell3.appendChild(element3);
     }
 
-
-    AverageGrade = sumgrade/(cradit-allsuCradit);
-
+    var AverageGrade;
+    if(cradit==0){
+        AverageGrade = 0;
+    }
+    else{
+        AverageGrade = sumgrade/(cradit-allsuCradit);
+    }
     rowCount = table.rows.length;
     var row = table.insertRow(rowCount);
     var cell1 = row.insertCell(0);
@@ -767,4 +793,122 @@ function showGrade(){
     element3.style = 'text-align:right'
     cell3.appendChild(element3);
 }
+
+
+// add subject
+document.getElementById('shaddsubject').addEventListener("click", () => {
+    toggleAddSubject();
+    showAddsubject();
+})
+
+function toggleAddSubject() {
+    var x = document.getElementById("addsj");
+    if (x.style.display === "block") {
+      x.style.display = "none";
+    } else {
+      x.style.display = "block";
+    }
+    var y = document.getElementById("addsubmit");
+    if (y.style.display === "block") {
+      y.style.display = "none";
+    } else {
+      y.style.display = "block";
+    }
+}
+
+function showAddsubject() {
+    var detable = document.getElementById("addtable");
+    var derowCount = detable.rows.length;
+    if(derowCount>1){
+        for(var i=derowCount-1;i>0;i--){
+            detable.deleteRow(i);
+        }
+    }
+    var table = document.getElementById("addtable");
+    var rowCount = table.rows.length;
+    var row = table.insertRow(rowCount);
+    var cell1 = row.insertCell(0);
+    var element1 = document.createElement("input");
+    element1.id = "addid"; // add id
+    element1.type = 'text';
+    element1.placeholder = "000000";
+    cell1.appendChild(element1);
+
+    var cell2 = row.insertCell(1);
+    var element2 = document.createElement("input");
+    element2.id = "addsh"; // add shortname
+    element2.type = 'text';
+    element2.placeholder = "INPUT000";
+    cell2.appendChild(element2);
+
+    var cell3 = row.insertCell(2);
+    var element3 = document.createElement("input");
+    element3.id = "addname"; // add name
+    element3.type = 'text';
+    element3.placeholder = "Input subject 0";
+    cell3.appendChild(element3);
+
+    var cell4 = row.insertCell(3);
+    var element4 = document.createElement("input");
+    element4.id = "addcredit"; // credit
+    element4.type = 'text';
+    element4.placeholder = "0";
+    cell4.appendChild(element4);
+            
+    var cell5 = row.insertCell(4);
+    var element5 = document.createElement("select");
+    element5.id = "addterm";
+    for(var k=0;k<arrterm.length;k++){
+        var option = document.createElement("option");
+        option.value = arrterm[k];
+        option.text = arrterm[k];
+        element5.appendChild(option);
+        cell5.appendChild(element5);
+    }
+
+    var cell6 = row.insertCell(5);
+    var element6 = document.createElement("select");
+    element6.id = "addgtype";
+    var g = ["A","S"];
+    for(var k=0;k<g.length;k++){
+        var option = document.createElement("option");
+        option.value = g[k];
+        option.text = g[k];
+        element6.appendChild(option);
+        cell6.appendChild(element6);
+    }
+}
+
+document.getElementById('addsubject').addEventListener("click", () => {
+    addSubject().then(
+        writegraph().then(
+            load()
+        )
+    );
+    toggleAddSubject();
+})
+
+async function addSubject() {
+    var id = document.getElementById("addid").value;
+    var sh = document.getElementById("addsh").value;
+    var name = document.getElementById("addname").value;
+    var credit = document.getElementById("addcredit").value;
+    var t = document.getElementById("addterm").value;
+    var g = document.getElementById("addgtype").value;
+    var ck = true;
+    for(var i=0;i<vecdt.length;i++){
+        if(sh==vecdt[i][1]){
+            ck=false;
+        }
+    }
+    if(ck==true&&id!=""&&sh!=""&&name!=""&&credit!=""){
+        var nt = [];
+        var ncredit = parseInt(credit);
+        if(Number.isInteger(ncredit)==true){
+            snarr.push(sh)
+            vecdt.push([id,sh,name,ncredit,"",t,g,nt,"notdone",nt,"-",t]);
+        }
+    }
+}
+
 
