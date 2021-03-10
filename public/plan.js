@@ -4,7 +4,7 @@ var cou;
 var arrterm = ["1/1","1/2","S1","2/1","2/2","S2","3/1","3/2","S3","4/1","4/2","S4","5/1","5/2","S5","6/1","6/2","S6","7/1","7/2","S7","8/1","8/2","S8"];
 var locterm = [0.5,99.5,198.5,297.5,396.5,495.5,594.5,693.5,792.5,891.5,990.5,1089.5,1188.5,1287.5,1386.5,1485.5,1584.5,1683.5,1782.5,1881.5,1980.5,2079.5,2178.5,2277.5];
 var term = [];
-var gradeA = ["-","A","B+","B","C+","C","D+","D","F","S","U"];
+var gradeA = ["-","A","B+","B","C+","C","D+","D","F"];
 var gradeVal = [0,4,3.5,3,2.5,2,1.5,1,0,0,0];
 var gradeS = ["-","S","U"];
 var snarr = [];
@@ -917,7 +917,7 @@ document.getElementById('editGSearch').addEventListener("click", () => {
 })
 
 function toggleEditGrade() {
-    var x = document.getElementById("Gregraph");
+    var x = document.getElementById("btnGregraph");
     if (x.style.display === "block") {
       x.style.display = "none";
     } else {
@@ -931,8 +931,8 @@ function toggleEditGrade() {
     }
 }
 
-function showGradeInTerm() {
-    var t = document.getElementById("selectTerm").value;
+async function showGradeInTerm() {
+    var t = document.getElementById("selectTerm").value; ///////////////// Term selected
     var detable = document.getElementById("editgradetable");
     var derowCount = detable.rows.length;
     if(derowCount>1){
@@ -940,14 +940,81 @@ function showGradeInTerm() {
             detable.deleteRow(i);
         }
     }
+    var subidx = [];
+    for(var i=0;i<vecdt.length;i++){
+        if(vecdt[i][5]==t){
+            subidx.push(i);
+        }
+    }
+
+    for(var i=0;i<subidx.length;i++){
+        var table = document.getElementById("editgradetable");
+        var rowCount = table.rows.length;
+        var row = table.insertRow(rowCount);
+
+        var cell1 = row.insertCell(0); //////// id
+        var element1 = document.createElement("p");
+        element1.innerHTML = vecdt[subidx[i]][0];
+        element1.style.fontWeight = "bold"
+        cell1.appendChild(element1);
+
+        var cell2 = row.insertCell(1);  //////////// shortname
+        var element2 = document.createElement("p");
+        element2.id = "changeGrade_" + i;
+        element2.innerHTML = vecdt[subidx[i]][1];
+        element2.style.fontWeight = "bold"
+        cell2.appendChild(element2);
+
+        var cell3 = row.insertCell(2);  ///////////// name
+        var element3 = document.createElement("p");
+        element3.innerHTML = vecdt[subidx[i]][2];
+        element3.style.fontWeight = "bold"
+        cell3.appendChild(element3);
+
+        var cell4 = row.insertCell(3);   ////////////// credit
+        var element4 = document.createElement("p");
+        element4.innerHTML = vecdt[subidx[i]][3];
+        element4.style.fontWeight = "bold"
+        cell4.appendChild(element4);
+
+        var cell5 = row.insertCell(4);    /////////////  grade
+        var element5 = document.createElement("select");
+        element5.id = "selectGrade";
+        var g = [];
+        if(vecdt[subidx[i]][6]=="A"){
+            g = gradeA;
+        }
+        else{
+            g = gradeS;
+        }
+        for(var k=0;k<g.length;k++){
+            var option = document.createElement("option");
+            option.value = g[k];
+            option.text = g[k];
+            element5.appendChild(option);
+            cell5.appendChild(element5);
+        }
+    }
+}
+
+document.getElementById('Gregraph').addEventListener("click", () => {
+    toggleEditGrade();
+    submitGradeChange();
+})
+
+async function submitGradeChange(){
     var table = document.getElementById("editgradetable");
-    var rowCount = table.rows.length;
-    var row = table.insertRow(rowCount);
-    var cell1 = row.insertCell(0);
-    var element1 = document.createElement("input");
-    element1.id = "addid"; // add id
-    element1.type = 'text';
-    element1.placeholder = "000000";
-    element1.style.fontWeight = "bold"
-    cell1.appendChild(element1);
+    var tableRow = table.rows.length;
+    var shidx = [];
+    for(var i=0;i<tableRow-1;i++){
+        var x = "changeGrade_" + i;
+        var shn = document.getElementById(x).innerHTML;
+        for(var j=0;j<vecdt.length;j++){
+            if(vecdt[j][1]==shn){
+                shidx.push(j);
+                break;
+            }
+        }
+    }
+    
 }
