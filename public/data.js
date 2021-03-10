@@ -187,29 +187,66 @@ document.getElementById('start').addEventListener("click",() =>{
 
 
 //Get own plan
-let input = document.querySelector('input#inputown');
+var input = document.querySelector('input#inputown');
 //let textarea = document.querySelector('textarea');
-let owndt;
-input.addEventListener('change', () => {
-    let files = input.files;
+var owndt = [];
+// input.addEventListener('change', () => {
+//     let files = input.files;
  
-    if(files.length == 0) return;
+//     if(files.length == 0) return;
  
-    const file = files[0];
+//     const file = files[0];
 
-    let reader = new FileReader();
+//     let reader = new FileReader();
  
-    reader.onload = (e) => {
-        const file = e.target.result;
-        const lines = file.split(/\r\n|\n/);
-        //textarea.value = lines.join('\n');
-        //console.log(lines)
-        owndt += lines
-    };
+//     reader.onload = (e) => {
+//         const file = e.target.result;
+//         const lines = file.split(/\r\n|\n/);
+//         //textarea.value = lines.join('\n');
+//         //console.log(lines)
+//         owndt += lines
+//     };
  
-    reader.onerror = (e) => alert(e.target.error.name);
+//     reader.onerror = (e) => alert(e.target.error.name);
  
-    reader.readAsText(file); 
-    console.log(owndt);
-});
+//     reader.readAsText(file); 
+//     console.log(owndt);
+// });
+let selectedFile;
+// document.getElementById('inputown').addEventListener("change", (event) => {
+//     selectedFile = event.target.files[0];
+//     // changeExcel();
+// })
 
+document.getElementById("cvown").addEventListener("click", () => {
+   
+})
+
+
+window.addEventListener('load', function() {
+    var upload = document.getElementById('inputown');
+    
+    // Make sure the DOM element exists
+    if (upload) 
+    {
+      upload.addEventListener('change', function() {
+        // Make sure a file was selected
+        if (upload.files.length > 0) 
+        {
+          var reader = new FileReader(); // File reader to read the file 
+          
+          // This event listener will happen when the reader has read the file
+          reader.addEventListener('load', function() {
+            var result = JSON.parse(reader.result); // Parse the result into an object 
+            
+            console.log(result);
+            console.log(result.name);
+            console.log(result.age);
+            console.log(result.occupation);
+          });
+          
+          reader.readAsText(upload.files[0]); // Read the uploaded file
+        }
+      });
+    }
+  });

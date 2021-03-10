@@ -59,16 +59,16 @@ app.get('/plan', (req, res) => res.render('pages/plan'))
 
 
 
-const axios = require('axios')
-const { response } = require('express')
-const clientID = process.env.CLIENT_ID
-const clientSecret = process.env.CLIENT_SECRET
-const redirectUri = process.env.CALLBACK_URL
+// const axios = require('axios')
+// const { response } = require('express')
+// const clientID = process.env.CLIENT_ID
+// const clientSecret = process.env.CLIENT_SECRET
+// const redirectUri = process.env.CALLBACK_URL
 
 // Declare the callback route
-app.get('/auth', (req, res) =>{
-    res.redirect(`https://oauth.cmu.ac.th/v1/Authorize.aspx?response_type=code&client_id=${clientID}&redirect_uri=${redirectUri}&scope=cmuitaccount.basicinfo&state=xyz`)
-})
+// app.get('/auth', (req, res) =>{
+//     res.redirect(`https://oauth.cmu.ac.th/v1/Authorize.aspx?response_type=code&client_id=${clientID}&redirect_uri=${redirectUri}&scope=cmuitaccount.basicinfo&state=xyz`)
+// })
 
 // app.get('/callback', (req,res) => {
 //     var rescode = response.code;

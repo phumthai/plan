@@ -16,7 +16,7 @@ let selectedFile;
 console.log(window.XLSX);
 document.getElementById('inputexcel').addEventListener("change", (event) => {
     selectedFile = event.target.files[0];
-    changeExcel();
+    // changeExcel();
 })
 
 let data = [];
@@ -136,24 +136,24 @@ function removeAllChildNodes(parent) {
     }
 }
 
-function changeExcel(){
-    // var fac = document.getElementById("faculty");
-    // var ba = document.getElementById("bachelor");
-    // var cou = document.getElementById("cos");
-    // var st = document.getElementById('send')
-    // if(fac.style.display = "block"){
-    //     fac.style.display = "none";
-    // }
-    // if(ba.style.display = "block"){
-    //     ba.style.display = "none";
-    // }
-    // if(cou.style.display = "block"){
-    //     cou.style.display = "none";
-    // }
-    // if(st.style.display = "block"){
-    //     st.style.display = "none";
-    // }
-}
+// function changeExcel(){
+//     var fac = document.getElementById("faculty");
+//     var ba = document.getElementById("bachelor");
+//     var cou = document.getElementById("cos");
+//     var st = document.getElementById('send')
+//     if(fac.style.display = "block"){
+//         fac.style.display = "none";
+//     }
+//     if(ba.style.display = "block"){
+//         ba.style.display = "none";
+//     }
+//     if(cou.style.display = "block"){
+//         cou.style.display = "none";
+//     }
+//     if(st.style.display = "block"){
+//         st.style.display = "none";
+//     }
+// }
 
 
 

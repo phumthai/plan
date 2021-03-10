@@ -4,24 +4,22 @@ var cou;
 var arrterm = ["1/1","1/2","S1","2/1","2/2","S2","3/1","3/2","S3","4/1","4/2","S4","5/1","5/2","S5","6/1","6/2","S6","7/1","7/2","S7","8/1","8/2","S8"];
 var locterm = [0.5,99.5,198.5,297.5,396.5,495.5,594.5,693.5,792.5,891.5,990.5,1089.5,1188.5,1287.5,1386.5,1485.5,1584.5,1683.5,1782.5,1881.5,1980.5,2079.5,2178.5,2277.5];
 var term = [];
-var gradeA = ["-","A","B+","B","C+","C","D+","D","F"];
+var gradeA = ["-","A","B+","B","C+","C","D+","D","F","W"];
 var gradeVal = [0,4,3.5,3,2.5,2,1.5,1,0,0,0];
-var gradeS = ["-","S","U"];
+var gradeS = ["-","S","U","W"];
 var snarr = [];
 var arrposterm = [0,3,6,9,12,15,18,21,24,27,30,33,36];
+var addlim = [];
 
 window.addEventListener('load',() =>{
     dt = JSON.parse(localStorage.getItem('Data'))
     cou = localStorage.getItem('course');
-    console.log(dt,cou);
+    // console.log(dt,cou);
     jsontovec().then(
         writegraph().then(
             load()
         )
     )
-    //setTimeout(function() {addRow('mytable')}, 100);
-    //addRow('mytable');
-    //writegraph();
 })
 //create graph format by json
 
@@ -48,8 +46,10 @@ async function jsontovec(){
         vecdt.push([dt[i]["ID"],dt[i]["ShortName"],dt[i]["Name"],dt[i]["Credits"],dt[i]["Prerequisite"],dt[i]["Semester"],dt[i]["Grade"],nextpos,"notdone",wi,"-",dt[i]["Semester"]]);
         // 0 id    1 shrotname    2 name    3 credit   4 pre    5 semester    6 gradetype   7 nextpos   8 writecheck  9 labcheck  10 grade 11 semesterbackup
      }
-     console.log(vecdt);
-     return vecdt;
+    //  console.log(vecdt);
+     for(var i=0;i<100;i++){
+         addlim.push(i);
+     }
 }
 
 async function writegraph(){
@@ -723,6 +723,12 @@ function showGrade(){
                 suCredit += vecdt[subject[j]][3];
                 allsuCradit += vecdt[subject[j]][3]; 
             }
+            else if(g=="W"){
+                sumTcredit += vecdt[subject[j]][3];
+                cradit += vecdt[subject[j]][3];
+                suCredit += vecdt[subject[j]][3];
+                allsuCradit += vecdt[subject[j]][3];
+            }
 
         }
         var Tgrade
@@ -747,6 +753,8 @@ function showGrade(){
         element2.innerHTML = sumTcredit // sumTcredit
         element2.style.fontWeight = "bold"
         cell2.appendChild(element2);
+
+        var setPreTG = Tgrade.toFixed(2);
 
         var cell3 = row.insertCell(2);
         var element3 = document.createElement("p");
@@ -777,6 +785,8 @@ function showGrade(){
     element2.innerHTML = cradit // sumcredit
     element2.style.fontWeight = "bold"
     cell2.appendChild(element2);
+
+    var setPreG = AverageGrade.toFixed(2);
 
     var cell3 = row.insertCell(2);
     var element3 = document.createElement("p");
@@ -979,7 +989,7 @@ async function showGradeInTerm() {
 
         var cell5 = row.insertCell(4);    /////////////  grade
         var element5 = document.createElement("select");
-        element5.id = "selectGrade";
+        element5.id = "selectGrade_" + i;
         var g = [];
         if(vecdt[subidx[i]][6]=="A"){
             g = gradeA;
@@ -989,7 +999,13 @@ async function showGradeInTerm() {
         }
         for(var k=0;k<g.length;k++){
             var option = document.createElement("option");
-            option.value = g[k];
+            if(g[k]==vecdt[subidx[i]][10]){
+                option.value = g[k];
+                option.selected = g[k];
+            }
+            else{
+                option.value = g[k];
+            }
             option.text = g[k];
             element5.appendChild(option);
             cell5.appendChild(element5);
@@ -999,7 +1015,11 @@ async function showGradeInTerm() {
 
 document.getElementById('Gregraph').addEventListener("click", () => {
     toggleEditGrade();
-    submitGradeChange();
+    submitGradeChange().then(
+        writegraph().then(
+            load()
+        )
+    )
 })
 
 async function submitGradeChange(){
@@ -1016,5 +1036,71 @@ async function submitGradeChange(){
             }
         }
     }
-    
+    for(var i=0;i<shidx.length;i++){
+        var x = "selectGrade_" + i;
+        var selectGrade = document.getElementById(x).value;
+        if(selectGrade!=vecdt[shidx[i]][10]){
+            vecdt[shidx[i]][10] = selectGrade;
+            if(selectGrade=="W"||selectGrade=="F"||selectGrade=="U"){
+                var newID = vecdt[shidx[i]][0];
+                var ck = true;
+                var newSH = vecdt[shidx[i]][1] + "[" + selectGrade + "]" + addlim[0];
+                addlim.shift();
+                var newName = vecdt[shidx[i]][2];
+                var newCredit = vecdt[shidx[i]][3];
+                var newPre = vecdt[shidx[i]][4];;
+                var newTerm = vecdt[shidx[i]][5];
+                var newGType = vecdt[shidx[i]][6];
+                var newNPos = [];
+                newNPos.push(shidx[i]);
+                var newWriteCK = "notdone";
+                var newLabCK = [];
+                var newGrade = selectGrade;
+                var newBkTerm = vecdt[shidx[i]][5];
+                snarr.push(newSH);
+                vecdt.push([newID,newSH,newName,newCredit,newPre,newTerm,newGType,newNPos,newWriteCK,newLabCK,newGrade,newBkTerm]);
+                var t = arrterm.indexOf(vecdt[shidx[i]][5]);
+                vecdt[shidx[i]][5] = arrterm[t+3];
+                if(vecdt[shidx[i]][7].length!=0){
+                    var np = [];
+                    for(var j=0;j<vecdt[shidx[i]][7].length;j++){
+                        np.push(vecdt[shidx[i]][7][j]);
+                    }
+                    while(np.length!=0){
+                        var nxnd = np[0];
+                        if(vecdt[nxnd][7].length!=0){
+                            for(var k=0;k<vecdt[nxnd][7].length;k++){
+                                np.push(vecdt[nxnd][7][k]);
+                            }
+                        }
+                        var nxt = arrterm.indexOf(vecdt[nxnd][5]);
+                        vecdt[nxnd][5] = arrterm[nxt+3];
+                        np.shift();
+                    }
+                }
+                if(vecdt[shidx[i]][4]!=""&&vecdt[shidx[i]][4].includes("in")){
+                    var pre = [];
+                    var preidx = [];
+                    var sp = vecdt[shidx[i]][4].split(' ');
+                    for(var j=2;j<sp.length;j++){
+                        pre.push(sp[j]);
+                    }
+                    for(var j=0;j<pre.length;j++){
+                        for(var k=0;k<vecdt.length;k++){
+                            if(pre[j]==vecdt[k][1]){
+                                preidx.push(k);
+                                break;
+                            }
+                        }
+                    }
+                    for(var j=0;j<preidx.length;j++){
+                        var nxidx = vecdt[preidx[j]][7].indexOf(shidx[i]);
+                        vecdt[preidx[j]][7][nxidx] = vecdt.length-1;
+                    }
+                }
+                vecdt[shidx[i]][4] = "1 in " + newSH;
+            }
+        }
+    }
+    console.log(vecdt)
 }

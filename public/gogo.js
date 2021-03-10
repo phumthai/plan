@@ -383,12 +383,13 @@ function init() {
 
   myDiagram.linkTemplate =
     $(go.Link,
-      { routing: go.Link.AvoidsNodes, corner: 5 },
+      { routing: go.Link.AvoidsNodes, corner: 5, reshapable: true, resegmentable: true},
       { relinkableFrom: true, relinkableTo: true },
       $(go.Shape ,{ strokeWidth: 2 },
-        new go.Binding("stroke", "color")),
+      new go.Binding("stroke", "color")),
       $(go.Shape, { toArrow: "Standard" , scale: 2, strokeWidth: 0 },
-      new go.Binding("fill", "color"))
+      new go.Binding("fill", "color")),
+      new go.Binding("points").makeTwoWay(),
     );
 
   // define some sample graphs in some of the lanes

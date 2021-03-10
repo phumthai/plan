@@ -12,6 +12,7 @@
     <!-- TODO: Add SDKs for Firebase products that you want to use
     https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-analytics.js"></script>
+    <script data-require="jquery@3.0.0" data-semver="3.0.0" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.js"></script>
 </head>
 <body class="is-preload landing">
     <div id="page-wrapper">
@@ -109,8 +110,8 @@
                 <div class="row gtr-uniform gtr-50">
                     <div class="col-4 col-12-medium"></div>
                     <div class="col-4 col-12-medium">
-                        <input class="form-control" type="file" id="inputown" accept=".txt"  >
-                    <button class="button primary" id="convertown">Convert</button>
+                        <input class="form-control" type="file" id="inputown" accept=".txt,.json"  >
+                        <input type="button" value="Convert" class="button" id="cvown">
                     </div>
                     <div class="col-4 col-12-medium"></div>
                     <div class="col-4 col-12-medium"></div>
