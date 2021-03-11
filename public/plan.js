@@ -12,14 +12,26 @@ var arrposterm = [0,3,6,9,12,15,18,21,24,27,30,33,36];
 var addlim = [];
 
 window.addEventListener('load',() =>{
-    dt = JSON.parse(localStorage.getItem('Data'))
-    cou = localStorage.getItem('course');
-    // console.log(dt,cou);
-    jsontovec().then(
+    if(JSON.parse(localStorage.getItem('own'))===null){
+        dt = JSON.parse(localStorage.getItem('Data'))
+        cou = localStorage.getItem('course');
+        console.log("1");
+        jsontovec().then(
+            writegraph().then(
+                load()
+            )
+        )
+    }
+    else{
+        cou = localStorage.getItem('course');
+        var vd = JSON.parse(localStorage.getItem("own"))
+        vecdt = vd;
+        console.log("2");
         writegraph().then(
             load()
         )
-    )
+    }
+    
 })
 //create graph format by json
 
@@ -46,7 +58,7 @@ async function jsontovec(){
         vecdt.push([dt[i]["ID"],dt[i]["ShortName"],dt[i]["Name"],dt[i]["Credits"],dt[i]["Prerequisite"],dt[i]["Semester"],dt[i]["Grade"],nextpos,"notdone",wi,"-",dt[i]["Semester"]]);
         // 0 id    1 shrotname    2 name    3 credit   4 pre    5 semester    6 gradetype   7 nextpos   8 writecheck  9 labcheck  10 grade 11 semesterbackup
      }
-    //  console.log(vecdt);
+    console.log(vecdt);
      for(var i=0;i<100;i++){
          addlim.push(i);
      }
@@ -58,7 +70,7 @@ async function writegraph(){
         vecdt[i][8] = "notdone"
     }
     
-    var l = dt.length; // length of data
+
 
     var abc ="123",x;
     var node = "";
@@ -77,7 +89,7 @@ async function writegraph(){
     var lastposx = -86.5;
     var lastposy = 70;
     //abc += dt[0]["ID"];
-    x = dt.length;
+    x = vecdt.length;
     var fulltxt = "{\n\"class\": \"GraphLinksModel\",\n";
     fulltxt += "\"nodeDataArray\": [\n";
     //check json have data
@@ -1104,3 +1116,29 @@ async function submitGradeChange(){
     }
     console.log(vecdt)
 }
+
+
+
+// download own plan
+document.getElementById("downloadPlan").addEventListener("click", () => {
+    //Convert JSON Array to string.
+    var json = JSON.stringify(vecdt);
+    //Convert JSON string to BLOB.
+    json = [json];
+    var blob1 = new Blob(json, { type: "text/plain;charset=utf-8" });
+
+    //Check the Browser.
+    var isIE = false || !!document.documentMode;
+    if (isIE) {
+        window.navigator.msSaveBlob(blob1, "Plan.json");
+    } else {
+        var url = window.URL || window.webkitURL;
+        link = url.createObjectURL(blob1);
+        var a = document.createElement("a");
+        a.download = "Plan.json";
+        a.href = link;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+})

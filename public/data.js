@@ -162,7 +162,7 @@ document.getElementById('start').addEventListener("click",() =>{
     var bac = document.getElementById("bachelor").value;
     var cou = document.getElementById("course").value;
     var ref = firebase.database().ref(facu + "/" + bac + "/" + cou);
-    
+    localStorage.clear();
     if(cou!=""){
         try{
             ref.on('value', (snapshot) => {
@@ -187,66 +187,89 @@ document.getElementById('start').addEventListener("click",() =>{
 
 
 //Get own plan
-var input = document.querySelector('input#inputown');
-//let textarea = document.querySelector('textarea');
+
 var owndt = [];
-// input.addEventListener('change', () => {
-//     let files = input.files;
- 
-//     if(files.length == 0) return;
- 
-//     const file = files[0];
-
-//     let reader = new FileReader();
- 
-//     reader.onload = (e) => {
-//         const file = e.target.result;
-//         const lines = file.split(/\r\n|\n/);
-//         //textarea.value = lines.join('\n');
-//         //console.log(lines)
-//         owndt += lines
-//     };
- 
-//     reader.onerror = (e) => alert(e.target.error.name);
- 
-//     reader.readAsText(file); 
-//     console.log(owndt);
-// });
 let selectedFile;
-// document.getElementById('inputown').addEventListener("change", (event) => {
-//     selectedFile = event.target.files[0];
-//     // changeExcel();
-// })
-
-document.getElementById("cvown").addEventListener("click", () => {
-   
+document.getElementById('inputown').addEventListener("change", (event) => {
+    selectedFile = event.target.files[0];
 })
 
+document.getElementById("cvown").addEventListener("click", () => {
+    toggleCV(),uploadFile().then(
+        setTimeout(() => {  
+            toggleStartOwn()
+        }, 500)
+    )
+})
 
-window.addEventListener('load', function() {
+document.getElementById("startown").addEventListener("click", () => {
+    cleardt().then(
+        sendOwnPlan()
+    )
+}) 
+
+
+var refindDT = [];
+async function uploadFile(){
     var upload = document.getElementById('inputown');
-    
-    // Make sure the DOM element exists
-    if (upload) 
-    {
-      upload.addEventListener('change', function() {
-        // Make sure a file was selected
+    var uploadDT = [];
+    if(upload){
         if (upload.files.length > 0) 
         {
-          var reader = new FileReader(); // File reader to read the file 
-          
-          // This event listener will happen when the reader has read the file
-          reader.addEventListener('load', function() {
-            var result = JSON.parse(reader.result); // Parse the result into an object 
+            var reader = new FileReader(); // File reader to read the file 
             
-            console.log(result);
-            console.log(result.name);
-            console.log(result.age);
-            console.log(result.occupation);
-          });
+            reader.onloadend = function(){
+            // This event listener will happen when the reader has read the file
+                var result = JSON.parse(reader.result); // Parse the result into an object 
+                uploadDT = JSON.parse(JSON.stringify(result))
+                for(var i=0;i<uploadDT.length;i++){
+                    refindDT.push(uploadDT[i])
+                }
+            };
           
-          reader.readAsText(upload.files[0]); // Read the uploaded file
+            reader.readAsText(upload.files[0]); // Read the uploaded file
+            
         }
-      });
     }
-  });
+    console.log(refindDT)
+}
+
+
+
+async function toggleStartOwn() {
+    var x = document.getElementById("stown");
+    if (x.style.display === "block") {
+      x.style.display = "none";
+    } else {
+      x.style.display = "block";
+    }
+}
+
+function toggleCV(){
+    var y = document.getElementById("cv");
+    if (y.style.display === "none") {
+      y.style.display = "block";
+    } else {
+      y.style.display = "none";
+    }
+}
+
+async function cleardt(){
+    owndt = refindDT;
+    //refindDT = [];
+    console.log(owndt);
+}
+
+async function sendOwnPlan(){
+    localStorage.clear();
+    try{
+        localStorage.setItem("course","MyPlan");
+        localStorage.setItem("own",JSON.stringify(owndt))
+        setTimeout(function() {window.location = "/plan"}, 2000);
+
+      
+    }
+    catch(err){
+        alert("Error");
+    }
+}
