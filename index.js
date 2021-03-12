@@ -55,7 +55,7 @@ const port = process.env.PORT || 5500;
 app.listen(port , () => console.log('App listening on port ' + port));
 
 app.get('/plan', (req, res) => res.render('pages/plan'))
-//app.get('/staffs', (req, res) => res.render('pages/staffs'))
+app.get('/staffs', (req, res) => res.render('pages/staffs'))
 
 
 
