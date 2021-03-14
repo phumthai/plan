@@ -26,7 +26,10 @@ window.addEventListener('load',() =>{
         cou = localStorage.getItem('course');
         var vd = JSON.parse(localStorage.getItem("own"))
         vecdt = vd;
-        console.log("2");
+        for(var i=0;i<vecdt.length;i++){
+            snarr.push(vecdt[i][1]);
+        }
+        console.log(vecdt);
         writegraph().then(
             load()
         )

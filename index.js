@@ -6,13 +6,13 @@ const cookieSession = require('cookie-session')
 app.set('view engine','ejs')
 app.use('/static', express.static('public'));
 
-app.get('/', (req, res) => res.render('pages/firstpage'))
+app.get('/', (req, res) => res.render('pages/index'))
 
 const port = process.env.PORT || 5500;
 app.listen(port , () => console.log('App listening on port ' + port));
 
 app.get('/plan', (req, res) => res.render('pages/plan'))
-//app.get('/staffs', (req, res) => res.render('pages/staffs'))
+app.get('/choose', (req, res) => res.render('pages/choosepage'))
 
 
 const axios = require('axios')

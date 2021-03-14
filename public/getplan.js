@@ -195,19 +195,14 @@ document.getElementById('inputown').addEventListener("change", (event) => {
 })
 
 document.getElementById("cvown").addEventListener("click", () => {
-    toggleCV(),uploadFile().then(
+    uploadFile().then(
         setTimeout(() => {  
-            toggleStartOwn()
-        }, 500)
+            cleardt().then(
+                sendOwnPlan()
+            )
+        }, 500)   
     )
 })
-
-document.getElementById("startown").addEventListener("click", () => {
-    cleardt().then(
-        sendOwnPlan()
-    )
-}) 
-
 
 var refindDT = [];
 async function uploadFile(){
@@ -232,26 +227,6 @@ async function uploadFile(){
         }
     }
     console.log(refindDT)
-}
-
-
-
-async function toggleStartOwn() {
-    var x = document.getElementById("stown");
-    if (x.style.display === "block") {
-      x.style.display = "none";
-    } else {
-      x.style.display = "block";
-    }
-}
-
-function toggleCV(){
-    var y = document.getElementById("cv");
-    if (y.style.display === "none") {
-      y.style.display = "block";
-    } else {
-      y.style.display = "none";
-    }
 }
 
 async function cleardt(){
