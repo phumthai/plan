@@ -1,0 +1,157 @@
+<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>table, th, td {border: 1px solid black;}</style>
+    <title>SPlanner Plan</title>
+    <link rel="stylesheet" href="/static/css/main.css" />
+	<noscript><link rel="stylesheet" href="/static/css/noscript.css" /></noscript>
+    <script src="/static/go.js"></script>
+</head>
+<body onload="init()">
+    <div id="page-wrapper">
+        <!-- Header -->
+        <header id="header">
+            <h1 id="logo"><a href="/">SPlanner</a></h1>
+            <nav id="nav">
+                <ul>
+                    
+                </ul>
+            </nav>
+        </header>
+
+        <!-- show graph -->
+        <div id="myDiagramDiv" style="border: solid 1px black; width:100%; height:500px;"></div>
+        <div hidden>
+            <textarea id="mySavedModel" style="width:100%;height:100px"></textarea>
+        </div>
+
+        <!-- Edit zone -->
+        <section id="one" class="wrapper style1 special fade-up">
+            <div class="container">
+                <form method="post" action="#">
+                    <div class="row gtr-uniform gtr-50">
+                        <!-- change term -->
+                        <div class="col-4 col-12-medium">
+                            <h4>Fill in the subjects you want to revise</h4>
+                        </div>
+                        <div class="col-3 col-12-medium">
+                            <input type="text" id="shName" placeholder="INPUT101">
+                        </div>
+                        <div class="col-5 col-12-xsmall">
+                            <ul class="actions">
+                                <li><input type="button" value="Search" class="button" id="shNameSearch"></li>
+                                <li><input type="button" value="Submit" class="button primary" id="regraph"></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-12-medium">
+                            <table id="mytable" hidden style="margin-left:30px;">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Shortname</th>
+                                    <th>Name</th>
+                                    <th>Credits</th>
+                                    <th>Prerequisite</th>
+                                    <th>Term</th>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- add subject -->
+                        <div class="col-12 col-12-medium">
+                            <ul class="actions">
+                                <li><input type="button" value="Add Subject" class="button primary" id="shaddsubject"></li>
+                                <li id="addsubmit" hidden><input type="button" value="Submit" class="button primary" id="addsubject"></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-12-medium">
+                            <table id="addtable" hidden>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Shortname [Key]</th>
+                                    <th>Name</th>
+                                    <th>Credits</th>
+                                    <th>Term</th>
+                                    <th>Grade Type</th>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- edit grade -->
+                        <div class="col-4 col-12-medium">
+                            <h4>Edit your grade</h4>
+                        </div>
+                        <div class="col-3 col-12-xsmall">
+                            <select name="Select Term" id="selectTerm"></select>
+                        </div>
+                        <div class="col-5 col-8-medium">
+                            <ul class="actions">
+                                <li><input type="button" value="Search" class="button" id="editGSearch"></li>
+                                <li id="btnGregraph" hidden><input type="button" value="Submit" class="button primary" id="Gregraph"></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-8-medium">
+                            <table id="editgradetable" hidden>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Shortname</th>
+                                    <th>Name</th>
+                                    <th>Credits</th>
+                                    <th>Grade</th>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- show grade -->
+                        <div class="col-4 col-12-medium">
+                            <h4>Show Grade Result</h4>
+                        </div>
+                        <div class="col-8 col-8-medium">
+                            <input type="button" value="Show" class="button primary" id="shGrade">
+                        </div>
+                        <div class="col-12 col-12-medium">
+                            <div class="table-wrapper">
+                                <table id="gradetable" hidden class="alt">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Shortname</th>
+                                    <th>Name</th>
+                                    <th>Credits</th>
+                                    <th>Grade</th>
+                                </tr>
+                            </table>
+                            </div>
+                            
+                        </div>
+                        <div class="col-12 col-12-medium">
+                            <h3>Save own plan to local </h3>
+                            <input type="button" value="Download" class="button primary" id="downloadPlan">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+
+
+
+
+
+
+
+
+    <!-- script -->
+    <script src="/static/css/jquery.min.js"></script>
+    <script src="/static/css/jquery.scrolly.min.js"></script>
+    <script src="/static/css/jquery.dropotron.min.js"></script>
+    <script src="/static/css/jquery.scrollex.min.js"></script>
+    <script src="/static/css/browser.min.js"></script>
+    <script src="/static/css/breakpoints.min.js"></script>
+    <script src="/static/css/util.js"></script>
+    <script src="/static/plan.js"></script>
+    <script src="/static/gogo.js"></script>
+</body>
+</html>

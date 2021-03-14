@@ -15,18 +15,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
 
   <script src="/static/go.js"></script>
-  <script id="code"></script>
 
-  <style>
-    @media print
-    {
-      table { page-break-after:auto }
-      tr    { page-break-inside:avoid; page-break-after:auto }
-      td    { page-break-inside:avoid; page-break-after:auto }
-      thead { display:table-header-group }
-      tfoot { display:table-footer-group }
-    }
-    </style>
+
   
 </head>
 <body onload="init()">
@@ -55,7 +45,7 @@
     </div>
   </div>
   <br>
-  <table id="mytable" hidden style="margin-left:30px;">
+  <table id="mytable" hidden>
     <tr>
       <th>ID</th>
       <th>Shortname</th>
@@ -74,8 +64,8 @@
         <li id="addsubmit" hidden><input type="button" value="Submit" class="button primary" id="addsubject"></li>
       </ul>
     </div>
-    <div id="addsj" hidden>
-      <table id="addtable" style="margin-left:30px;margin-right:30px;">
+
+      <table id="addtable" style="margin-left:30px;margin-right:30px;" hidden>
         <tr>
           <th>ID</th>
           <th>Shortname [Key]</th>
@@ -85,7 +75,7 @@
           <th>Grade Type</th>
         </tr>
       </table>
-    </div>
+
   </div>
   <br>
   <div class="row gtr-uniform gtr-25">

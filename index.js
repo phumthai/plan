@@ -11,7 +11,7 @@ app.get('/', (req, res) => res.render('pages/index'))
 const port = process.env.PORT || 5500;
 app.listen(port , () => console.log('App listening on port ' + port));
 
-app.get('/plan', (req, res) => res.render('pages/plan'))
+app.get('/plan', (req, res) => res.render('pages/plans'))
 app.get('/choose', (req, res) => res.render('pages/choosepage'))
 
 

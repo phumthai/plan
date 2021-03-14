@@ -818,7 +818,7 @@ document.getElementById('shaddsubject').addEventListener("click", () => {
 })
 
 function toggleAddSubject() {
-    var x = document.getElementById("addsj");
+    var x = document.getElementById("addtable");
     if (x.style.display === "block") {
       x.style.display = "none";
     } else {
@@ -1114,6 +1114,7 @@ async function submitGradeChange(){
                     }
                 }
                 vecdt[shidx[i]][4] = "1 in " + newSH;
+                vecdt[shidx[i]][10] = "-";
             }
         }
     }
