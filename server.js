@@ -28,13 +28,11 @@ app.get('/auth', (req, res) =>{
 
 app.get('/callback', (req,res) => {
     var rescode = req.query.code;
-    console.log(rescode)
     axios({
         method: 'post',
         url: `https://oauth.cmu.ac.th/v1/GetToken.aspx?code=${rescode}&redirect_uri=${redirectUri}&client_id=${clientID}&client_secret=${clientSecret}&grant_type=authorization_code`,
 
     }).then((resp) => {
-        console.log(resp.data)
         access_token = resp.data.access_token
         refresh_token = resp.data.refresh_token
         axios({
@@ -44,7 +42,6 @@ app.get('/callback', (req,res) => {
                 Authorization: 'Bearer ' + access_token
             }
         }).then((respd) => {
-            console.log(respd.data)
             res.render('pages/staffs',{ userData: respd.data });
         })
     })
