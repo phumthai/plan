@@ -630,6 +630,8 @@ function showGrade(){
     var allC = 0;
     var allSC = 0;
     var F = 0;
+    var tiredck = false;
+    var tire32ck = 0;
     var detable = document.getElementById("gradetable");
     var derowCount = detable.rows.length;
     if(derowCount>1){
@@ -827,50 +829,110 @@ function showGrade(){
         element3.style.fontWeight = "bold"
         cell3.appendChild(element3);
 
-        if(vecdt[subject[0]][5]=="2/2"){
+
+        var AverageGrade;
+        if(cradit==0){
+            AverageGrade = 0;
+        }
+        else{
+            AverageGrade = sumgrade/(cradit-allsuCradit);
+        }
+        rowCount = table.rows.length;
+        var row = table.insertRow(rowCount);
+        var cell4 = row.insertCell(0);
+        var element4 = document.createElement("p");
+        element4.innerHTML = "AverageGrade"; 
+        element4.style = 'text-align:center'
+        element4.style.fontWeight = "bold"
+        cell4.appendChild(element4);
+        cell4.colSpan = 3;
+    
+        var cell5 = row.insertCell(1);
+        var element5 = document.createElement("p");
+        element5.innerHTML = (cradit-allsuCradit-F+allSC) + "/" + allC// sumcredit
+        element5.style.fontWeight = "bold"
+        cell5.appendChild(element5);
+    
+        var setPreG = AverageGrade.toPrecision(3);
+    
+        var cell6 = row.insertCell(2);
+        var element6 = document.createElement("p");
+        element6.innerHTML = setPreG // grade
+        element6.style.fontWeight = "bold"
+        cell6.appendChild(element6);
+
+
+        if(vecdt[subject[0]][5]=="1/2"&&(sumTcredit-suCredit-TF+allSTC)!=0){
+            if(cradit>0){
+                var t = sumgrade/(cradit-allsuCradit);
+                if(t<1.5){
+                    alert("เกรดภายใน 1/2 ไม่ถึง 1.5 มีสิทธิรีไทร์")
+                    tiredck = true;
+                }
+            }
+        }
+        else if(vecdt[subject[0]][5]=="2/2"&&(sumTcredit-suCredit-TF+allSTC)!=0&&tiredck==false){
             if(cradit>0){
                 var t = sumgrade/(cradit-allsuCradit);
                 if(t<1.75){
                     alert("เกรดภายใน 2/2 ไม่ถึง 1.75 มีสิทธิรีไทร์")
+                    tiredck = true;
+                }
+            }
+        }
+        if(arrterm.indexOf(vecdt[subject[0]][5])>=7&&(arrterm.indexOf(vecdt[subject[0]][5])+1)%3!=0&&tiredck==false){
+            if(cradit>0){
+                var t = sumgrade/(cradit-allsuCradit);
+                if(t<1.75){
+                    tire32ck++;
+                }
+                else{
+                    if(tire32ck>0){
+                        tire32ck--;
+                    }
+                }
+                if(tire32ck==2){
+                    alert("เกรดไม่ถึง 1.75 ติดต่อกัน 2 เทอม มีสิทธิรีไทร์")
+                    tiredck = true;
                 }
             }
         }
     }
 
-    var AverageGrade;
-    if(cradit==0){
-        AverageGrade = 0;
-    }
-    else{
-        AverageGrade = sumgrade/(cradit-allsuCradit);
-    }
-    rowCount = table.rows.length;
-    var row = table.insertRow(rowCount);
-    var cell1 = row.insertCell(0);
-    var element1 = document.createElement("p");
-    element1.innerHTML = "AverageGrade"; 
-    element1.style = 'text-align:center'
-    element1.style.fontWeight = "bold"
-    cell1.appendChild(element1);
-    cell1.colSpan = 3;
+    // var AverageGrade;
+    // if(cradit==0){
+    //     AverageGrade = 0;
+    // }
+    // else{
+    //     AverageGrade = sumgrade/(cradit-allsuCradit);
+    // }
+    // rowCount = table.rows.length;
+    // var row = table.insertRow(rowCount);
+    // var cell1 = row.insertCell(0);
+    // var element1 = document.createElement("p");
+    // element1.innerHTML = "AverageGrade"; 
+    // element1.style = 'text-align:center'
+    // element1.style.fontWeight = "bold"
+    // cell1.appendChild(element1);
+    // cell1.colSpan = 3;
 
-    var cell2 = row.insertCell(1);
-    var element2 = document.createElement("p");
-    element2.innerHTML = (cradit-allsuCradit-F+allSC) + "/" + allC// sumcredit
-    element2.style.fontWeight = "bold"
-    cell2.appendChild(element2);
+    // var cell2 = row.insertCell(1);
+    // var element2 = document.createElement("p");
+    // element2.innerHTML = (cradit-allsuCradit-F+allSC) + "/" + allC// sumcredit
+    // element2.style.fontWeight = "bold"
+    // cell2.appendChild(element2);
 
-    var setPreG = AverageGrade.toPrecision(3);
+    // var setPreG = AverageGrade.toPrecision(3);
 
-    var cell3 = row.insertCell(2);
-    var element3 = document.createElement("p");
-    element3.innerHTML = setPreG // grade
-    element3.style.fontWeight = "bold"
-    cell3.appendChild(element3);
+    // var cell3 = row.insertCell(2);
+    // var element3 = document.createElement("p");
+    // element3.innerHTML = setPreG // grade
+    // element3.style.fontWeight = "bold"
+    // cell3.appendChild(element3);
 
 
     if(cradit>0){
-        if(AverageGrade<2){
+        if(AverageGrade<2&&tiredck==false){
             alert("เกรดไม่ถึง 2 มีสิทธิไม่จบการศึกษา")
         }
     }
