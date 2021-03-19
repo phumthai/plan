@@ -14,14 +14,14 @@ app.listen(port , () => console.log('App listening on port ' + port));
 app.get('/plan', (req, res) => res.render('pages/plans'))
 app.get('/choose', (req, res) => res.render('pages/choosepage'))
 app.get('/tutorial', (req,res) => {
-    var filePath = "/public/Test.pdf";
+    var filePath = "/public/SPlannerTutorial.pdf";
     fs.readFile(__dirname + filePath , function (err,data){
         res.contentType("application/pdf");
         res.send(data);
     });
 })
 app.get('/staffTutorial', (req,res) => {
-    var filePath = "/public/Test.pdf";
+    var filePath = "/public/SPlannerTutorialStaff.pdf";
     fs.readFile(__dirname + filePath , function (err,data){
         res.contentType("application/pdf");
         res.send(data);
