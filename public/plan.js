@@ -627,6 +627,8 @@ function showGrade(){
     var sumgrade = 0;
     var AverageGrade = 0;
     var allsuCradit = 0;
+    var allC = 0;
+    var F = 0;
     var detable = document.getElementById("gradetable");
     var derowCount = detable.rows.length;
     if(derowCount>1){
@@ -639,6 +641,13 @@ function showGrade(){
         var sumTgrade = 0;
         var sumTcredit = 0;
         var suCredit = 0;
+        var isSummer = false;
+        var allTC = 0;
+        var TF = 0;
+        var modisSummer = (arrterm.indexOf(term[i])+1)%3
+        if(modisSummer==0){
+            isSummer = true;
+        }
         for(var j=0;j<vecdt.length;j++){
             if(vecdt[j][5]==term[i]){
                 subject.push(j);
@@ -683,68 +692,95 @@ function showGrade(){
                 sumgrade += 4*vecdt[subject[j]][3];
                 sumTcredit += vecdt[subject[j]][3];
                 cradit += vecdt[subject[j]][3];
+                allTC += vecdt[subject[j]][3];
+                allC += vecdt[subject[j]][3];
             }
             else if(g=="B+"){
                 sumTgrade += 3.5*vecdt[subject[j]][3];
                 sumgrade += 3.5*vecdt[subject[j]][3];
                 sumTcredit += vecdt[subject[j]][3];
                 cradit += vecdt[subject[j]][3];
+                allTC += vecdt[subject[j]][3];
+                allC += vecdt[subject[j]][3];
             }
             else if(g=="B"){
                 sumTgrade += 3*vecdt[subject[j]][3];
                 sumgrade += 3*vecdt[subject[j]][3];
                 sumTcredit += vecdt[subject[j]][3];
                 cradit += vecdt[subject[j]][3];
+                allTC += vecdt[subject[j]][3];
+                allC += vecdt[subject[j]][3];
             }
             else if(g=="C+"){
                 sumTgrade += 2.5*vecdt[subject[j]][3];
                 sumgrade += 2.5*vecdt[subject[j]][3];
                 sumTcredit += vecdt[subject[j]][3];
                 cradit += vecdt[subject[j]][3];
+                allTC += vecdt[subject[j]][3];
+                allC += vecdt[subject[j]][3];
             }
             else if(g=="C"){
                 sumTgrade += 2*vecdt[subject[j]][3];
                 sumgrade += 2*vecdt[subject[j]][3];
                 sumTcredit += vecdt[subject[j]][3];
                 cradit += vecdt[subject[j]][3];
+                allTC += vecdt[subject[j]][3];
+                allC += vecdt[subject[j]][3];
             }
             else if(g=="D+"){
                 sumTgrade += 1.5*vecdt[subject[j]][3];
                 sumgrade += 1.5*vecdt[subject[j]][3];
                 sumTcredit += vecdt[subject[j]][3];
                 cradit += vecdt[subject[j]][3];
+                allTC += vecdt[subject[j]][3];
+                allC += vecdt[subject[j]][3];
             }
             else if(g=="D"){
                 sumTgrade += 1*vecdt[subject[j]][3];
                 sumgrade += 1*vecdt[subject[j]][3];
                 sumTcredit += vecdt[subject[j]][3];
                 cradit += vecdt[subject[j]][3];
+                allTC += vecdt[subject[j]][3];
+                allC += vecdt[subject[j]][3];
             }
             else if(g=="F"){
                 sumTgrade += 0*vecdt[subject[j]][3];
                 sumgrade += 0*vecdt[subject[j]][3];
                 sumTcredit += vecdt[subject[j]][3];
                 cradit += vecdt[subject[j]][3];
+                allTC += vecdt[subject[j]][3];
+                allC += vecdt[subject[j]][3];
+                TF += vecdt[subject[j]][3];
+                F += vecdt[subject[j]][3];
             }
             else if(g=="S"){
                 sumTcredit += vecdt[subject[j]][3];
                 cradit += vecdt[subject[j]][3];
                 suCredit += vecdt[subject[j]][3];
                 allsuCradit += vecdt[subject[j]][3];
+                allTC += vecdt[subject[j]][3];
+                allC += vecdt[subject[j]][3];
             }
             else if(g=="U"){
                 sumTcredit += vecdt[subject[j]][3];
                 cradit += vecdt[subject[j]][3];
                 suCredit += vecdt[subject[j]][3];
-                allsuCradit += vecdt[subject[j]][3]; 
+                allsuCradit += vecdt[subject[j]][3];
+                allTC += vecdt[subject[j]][3];
+                allC += vecdt[subject[j]][3]; 
             }
             else if(g=="W"){
                 sumTcredit += vecdt[subject[j]][3];
                 cradit += vecdt[subject[j]][3];
                 suCredit += vecdt[subject[j]][3];
                 allsuCradit += vecdt[subject[j]][3];
+                allTC += vecdt[subject[j]][3];
+                allC += vecdt[subject[j]][3];
             }
-
+            else if(g=="-"){
+                allTC += vecdt[subject[j]][3];
+                allC += vecdt[subject[j]][3];
+            }
         }
         var Tgrade
         if(sumTcredit==0){
@@ -765,15 +801,25 @@ function showGrade(){
 
         var cell2 = row.insertCell(1);
         var element2 = document.createElement("p");
-        element2.innerHTML = sumTcredit // sumTcredit
+        element2.innerHTML = (sumTcredit-suCredit-TF) + "/" + allTC // sumTcredit
         element2.style.fontWeight = "bold"
+        if(isSummer==true){
+            if(allTC>9){
+                element2.style.backgroundColor = "#F11C46"
+            }
+        }
+        else{
+            if(allTC>22){
+                element2.style.backgroundColor = "#F11C46"
+            }
+        }
         cell2.appendChild(element2);
 
-        var setPreTG = Tgrade.toFixed(2);
+        var setPreTG = Tgrade.toPrecision(3);
 
         var cell3 = row.insertCell(2);
         var element3 = document.createElement("p");
-        element3.innerHTML = Tgrade // ATgrade
+        element3.innerHTML = setPreTG // ATgrade
         element3.style.fontWeight = "bold"
         cell3.appendChild(element3);
     }
@@ -797,15 +843,15 @@ function showGrade(){
 
     var cell2 = row.insertCell(1);
     var element2 = document.createElement("p");
-    element2.innerHTML = cradit // sumcredit
+    element2.innerHTML = (cradit-allsuCradit-F) + "/" + allC// sumcredit
     element2.style.fontWeight = "bold"
     cell2.appendChild(element2);
 
-    var setPreG = AverageGrade.toFixed(2);
+    var setPreG = AverageGrade.toPrecision(3);
 
     var cell3 = row.insertCell(2);
     var element3 = document.createElement("p");
-    element3.innerHTML = AverageGrade // grade
+    element3.innerHTML = setPreG // grade
     element3.style.fontWeight = "bold"
     cell3.appendChild(element3);
 }
