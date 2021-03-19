@@ -797,7 +797,7 @@ function showGrade(){
         var row = table.insertRow(rowCount);
         var cell1 = row.insertCell(0);
         var element1 = document.createElement("p");
-        element1.innerHTML = vecdt[subject[0]][5]; // id
+        element1.innerHTML = vecdt[subject[0]][5]; // term
         element1.style = 'text-align:center'
         element1.style.fontWeight = "bold"
         cell1.appendChild(element1);
@@ -826,6 +826,15 @@ function showGrade(){
         element3.innerHTML = setPreTG // ATgrade
         element3.style.fontWeight = "bold"
         cell3.appendChild(element3);
+
+        if(vecdt[subject[0]][5]=="2/2"){
+            if(cradit>0){
+                var t = sumgrade/(cradit-allsuCradit);
+                if(t<1.75){
+                    alert("เกรดภายใน 2/2 ไม่ถึง 1.75 มีสิทธิรีไทร์")
+                }
+            }
+        }
     }
 
     var AverageGrade;
@@ -858,6 +867,13 @@ function showGrade(){
     element3.innerHTML = setPreG // grade
     element3.style.fontWeight = "bold"
     cell3.appendChild(element3);
+
+
+    if(cradit>0){
+        if(AverageGrade<2){
+            alert("เกรดไม่ถึง 2 มีสิทธิไม่จบการศึกษา")
+        }
+    }
 }
 
 
