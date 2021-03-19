@@ -58,8 +58,8 @@ async function jsontovec(){
             }
         }
         snarr.push(dt[i]["ShortName"])
-        vecdt.push([dt[i]["ID"],dt[i]["ShortName"],dt[i]["Name"],dt[i]["Credits"],dt[i]["Prerequisite"],dt[i]["Semester"],dt[i]["Grade"],nextpos,"notdone",wi,"-",dt[i]["Semester"]]);
-        // 0 id    1 shrotname    2 name    3 credit   4 pre    5 semester    6 gradetype   7 nextpos   8 writecheck  9 labcheck  10 grade 11 semesterbackup
+        vecdt.push([dt[i]["ID"],dt[i]["ShortName"],dt[i]["Name"],dt[i]["Credits"],dt[i]["Prerequisite"],dt[i]["Semester"],dt[i]["Grade"],nextpos,"notdone",wi,"-",dt[i]["Semester"],false]);
+        // 0 id    1 shrotname    2 name    3 credit   4 pre    5 semester    6 gradetype   7 nextpos   8 writecheck  9 labcheck  10 grade 11 semesterbackup 12 addc
      }
     console.log(vecdt);
      for(var i=0;i<100;i++){
@@ -424,7 +424,7 @@ async function termchange(){
                     }
                 }
                 var prenode = Math.max.apply(Math,allprenode);
-                if(indexofsevl>=arrterm.indexOf(vecdt[prenode][5])){
+                if(true){     ///// indexofsevl>=arrterm.indexOf(vecdt[prenode][5]) check if this node is go back before previous node
                     vecdt[snidx][5] = sevl;
                     vecdt[snidx][8] = "done";
                     //////
@@ -628,6 +628,7 @@ function showGrade(){
     var AverageGrade = 0;
     var allsuCradit = 0;
     var allC = 0;
+    var allSC = 0;
     var F = 0;
     var detable = document.getElementById("gradetable");
     var derowCount = detable.rows.length;
@@ -644,6 +645,7 @@ function showGrade(){
         var isSummer = false;
         var allTC = 0;
         var TF = 0;
+        var allSTC = 0;
         var modisSummer = (arrterm.indexOf(term[i])+1)%3
         if(modisSummer==0){
             isSummer = true;
@@ -760,6 +762,8 @@ function showGrade(){
                 allsuCradit += vecdt[subject[j]][3];
                 allTC += vecdt[subject[j]][3];
                 allC += vecdt[subject[j]][3];
+                allSTC += vecdt[subject[j]][3];
+                allSC += vecdt[subject[j]][3];
             }
             else if(g=="U"){
                 sumTcredit += vecdt[subject[j]][3];
@@ -801,7 +805,7 @@ function showGrade(){
 
         var cell2 = row.insertCell(1);
         var element2 = document.createElement("p");
-        element2.innerHTML = (sumTcredit-suCredit-TF) + "/" + allTC // sumTcredit
+        element2.innerHTML = (sumTcredit-suCredit-TF+allSTC) + "/" + allTC // sumTcredit
         element2.style.fontWeight = "bold"
         if(isSummer==true){
             if(allTC>9){
@@ -843,7 +847,7 @@ function showGrade(){
 
     var cell2 = row.insertCell(1);
     var element2 = document.createElement("p");
-    element2.innerHTML = (cradit-allsuCradit-F) + "/" + allC// sumcredit
+    element2.innerHTML = (cradit-allsuCradit-F+allSC) + "/" + allC// sumcredit
     element2.style.fontWeight = "bold"
     cell2.appendChild(element2);
 
@@ -959,6 +963,7 @@ document.getElementById('addsubject').addEventListener("click", () => {
 async function addSubject() {
     var id = document.getElementById("addid").value;
     var sh = document.getElementById("addsh").value;
+    var ush = sh.toUpperCase();
     var name = document.getElementById("addname").value;
     var credit = document.getElementById("addcredit").value;
     var t = document.getElementById("addterm").value;
@@ -974,7 +979,7 @@ async function addSubject() {
         var ncredit = parseInt(credit);
         if(Number.isInteger(ncredit)==true){
             snarr.push(sh)
-            vecdt.push([id,sh,name,ncredit,"",t,g,nt,"notdone",nt,"-",t]);
+            vecdt.push([id,ush,name,ncredit,"",t,g,nt,"notdone",nt,"-",t,true]);
         }
     }
 }
@@ -1103,64 +1108,67 @@ async function submitGradeChange(){
         if(selectGrade!=vecdt[shidx[i]][10]){
             vecdt[shidx[i]][10] = selectGrade;
             if(selectGrade=="W"||selectGrade=="F"||selectGrade=="U"){
-                var newID = vecdt[shidx[i]][0];
-                var ck = true;
-                var newSH = vecdt[shidx[i]][1] + "[" + selectGrade + "]" + addlim[0];
-                addlim.shift();
-                var newName = vecdt[shidx[i]][2];
-                var newCredit = vecdt[shidx[i]][3];
-                var newPre = vecdt[shidx[i]][4];;
-                var newTerm = vecdt[shidx[i]][5];
-                var newGType = vecdt[shidx[i]][6];
-                var newNPos = [];
-                newNPos.push(shidx[i]);
-                var newWriteCK = "notdone";
-                var newLabCK = [];
-                var newGrade = selectGrade;
-                var newBkTerm = vecdt[shidx[i]][5];
-                snarr.push(newSH);
-                vecdt.push([newID,newSH,newName,newCredit,newPre,newTerm,newGType,newNPos,newWriteCK,newLabCK,newGrade,newBkTerm]);
-                var t = arrterm.indexOf(vecdt[shidx[i]][5]);
-                vecdt[shidx[i]][5] = arrterm[t+3];
-                if(vecdt[shidx[i]][7].length!=0){
-                    var np = [];
-                    for(var j=0;j<vecdt[shidx[i]][7].length;j++){
-                        np.push(vecdt[shidx[i]][7][j]);
-                    }
-                    while(np.length!=0){
-                        var nxnd = np[0];
-                        if(vecdt[nxnd][7].length!=0){
-                            for(var k=0;k<vecdt[nxnd][7].length;k++){
-                                np.push(vecdt[nxnd][7][k]);
-                            }
+                if(vecdt[shidx[i]][12]==false){
+                    var newID = vecdt[shidx[i]][0];
+                    var ck = true;
+                    var newSH = vecdt[shidx[i]][1] + "[" + selectGrade + "]" + addlim[0];
+                    addlim.shift();
+                    var newName = vecdt[shidx[i]][2];
+                    var newCredit = vecdt[shidx[i]][3];
+                    var newPre = vecdt[shidx[i]][4];;
+                    var newTerm = vecdt[shidx[i]][5];
+                    var newGType = vecdt[shidx[i]][6];
+                    var newNPos = [];
+                    newNPos.push(shidx[i]);
+                    var newWriteCK = "notdone";
+                    var newLabCK = [];
+                    var newGrade = selectGrade;
+                    var newBkTerm = vecdt[shidx[i]][5];
+                    snarr.push(newSH);
+                    vecdt.push([newID,newSH,newName,newCredit,newPre,newTerm,newGType,newNPos,newWriteCK,newLabCK,newGrade,newBkTerm,false]);
+                    var t = arrterm.indexOf(vecdt[shidx[i]][5]);
+                    vecdt[shidx[i]][5] = arrterm[t+3];
+                    if(vecdt[shidx[i]][7].length!=0){
+                        var np = [];
+                        for(var j=0;j<vecdt[shidx[i]][7].length;j++){
+                            np.push(vecdt[shidx[i]][7][j]);
                         }
-                        var nxt = arrterm.indexOf(vecdt[nxnd][5]);
-                        vecdt[nxnd][5] = arrterm[nxt+3];
-                        np.shift();
-                    }
-                }
-                if(vecdt[shidx[i]][4]!=""&&vecdt[shidx[i]][4].includes("in")){
-                    var pre = [];
-                    var preidx = [];
-                    var sp = vecdt[shidx[i]][4].split(' ');
-                    for(var j=2;j<sp.length;j++){
-                        pre.push(sp[j]);
-                    }
-                    for(var j=0;j<pre.length;j++){
-                        for(var k=0;k<vecdt.length;k++){
-                            if(pre[j]==vecdt[k][1]){
-                                preidx.push(k);
-                                break;
+                        while(np.length!=0){
+                            var nxnd = np[0];
+                            if(vecdt[nxnd][7].length!=0){
+                                for(var k=0;k<vecdt[nxnd][7].length;k++){
+                                    np.push(vecdt[nxnd][7][k]);
+                                }
                             }
+                            var nxt = arrterm.indexOf(vecdt[nxnd][5]);
+                            vecdt[nxnd][5] = arrterm[nxt+3];
+                            np.shift();
                         }
                     }
-                    for(var j=0;j<preidx.length;j++){
-                        var nxidx = vecdt[preidx[j]][7].indexOf(shidx[i]);
-                        vecdt[preidx[j]][7][nxidx] = vecdt.length-1;
+                    if(vecdt[shidx[i]][4]!=""&&vecdt[shidx[i]][4].includes("in")){
+                        var pre = [];
+                        var preidx = [];
+                        var sp = vecdt[shidx[i]][4].split(' ');
+                        for(var j=2;j<sp.length;j++){
+                            pre.push(sp[j]);
+                        }
+                        for(var j=0;j<pre.length;j++){
+                            for(var k=0;k<vecdt.length;k++){
+                                if(pre[j]==vecdt[k][1]){
+                                    preidx.push(k);
+                                    break;
+                                }
+                            }
+                        }
+                        for(var j=0;j<preidx.length;j++){
+                            var nxidx = vecdt[preidx[j]][7].indexOf(shidx[i]);
+                            vecdt[preidx[j]][7][nxidx] = vecdt.length-1;
+                        }
                     }
+                    vecdt[shidx[i]][4] = "1 in " + newSH;
+                    vecdt[shidx[i]][10] = "-";
                 }
-                vecdt[shidx[i]][4] = "1 in " + newSH;
-                vecdt[shidx[i]][10] = "-";
+                
             }
         }
     }

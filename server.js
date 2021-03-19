@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-const cookieSession = require('cookie-session')
+var fs = require('fs')
 
 app.set('view engine','ejs')
 app.use('/static', express.static('public'));
@@ -13,7 +13,20 @@ app.listen(port , () => console.log('App listening on port ' + port));
 
 app.get('/plan', (req, res) => res.render('pages/plans'))
 app.get('/choose', (req, res) => res.render('pages/choosepage'))
-app.get('/tutorial', (req,res) => res.render('pages/tutorial'))
+app.get('/tutorial', (req,res) => {
+    var filePath = "/public/Test.pdf";
+    fs.readFile(__dirname + filePath , function (err,data){
+        res.contentType("application/pdf");
+        res.send(data);
+    });
+})
+app.get('/staffTutorial', (req,res) => {
+    var filePath = "/public/Test.pdf";
+    fs.readFile(__dirname + filePath , function (err,data){
+        res.contentType("application/pdf");
+        res.send(data);
+    });
+})
 
 
 const axios = require('axios')
