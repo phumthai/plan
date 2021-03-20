@@ -632,6 +632,7 @@ function showGrade(){
     var F = 0;
     var tiredck = false;
     var tire32ck = 0;
+    var nortermck = 0;
     var detable = document.getElementById("gradetable");
     var derowCount = detable.rows.length;
     if(derowCount>1){
@@ -862,41 +863,79 @@ function showGrade(){
         cell6.appendChild(element6);
 
 
-        if(vecdt[subject[0]][5]=="1/2"&&(sumTcredit-suCredit-TF+allSTC)!=0){
+        // if(vecdt[subject[0]][5]=="1/2"&&(sumTcredit-suCredit-TF+allSTC)!=0){
+        //     if(cradit>0){
+        //         var t = sumgrade/(cradit-allsuCradit);
+        //         if(t<1.5){
+        //             alert("เกรดภายใน 1/2 ไม่ถึง 1.5 มีสิทธิรีไทร์")
+        //             tiredck = true;
+        //         }
+        //     }
+        // }
+        // else if(vecdt[subject[0]][5]=="2/2"&&(sumTcredit-suCredit-TF+allSTC)!=0&&tiredck==false){
+        //     if(cradit>0){
+        //         var t = sumgrade/(cradit-allsuCradit);
+        //         if(t<1.75){
+        //             alert("เกรดภายใน 2/2 ไม่ถึง 1.75 มีสิทธิรีไทร์")
+        //             tiredck = true;
+        //         }
+        //     }
+        // }
+        // if(arrterm.indexOf(vecdt[subject[0]][5])>=7&&(arrterm.indexOf(vecdt[subject[0]][5])+1)%3!=0&&tiredck==false){
+        //     if(cradit>0){
+        //         var t = sumgrade/(cradit-allsuCradit);
+        //         if(t<1.75){
+        //             tire32ck++;
+        //         }
+        //         else{
+        //             if(tire32ck>0){
+        //                 tire32ck--;
+        //             }
+        //         }
+        //         if(tire32ck==2){
+        //             alert("เกรดไม่ถึง 1.75 ติดต่อกัน 2 เทอม มีสิทธิรีไทร์")
+        //             tiredck = true;
+        //         }
+        //     }
+        // }
+        if((arrterm.indexOf(vecdt[subject[0]][5])+1)%3!=0){
+            nortermck++;
+        }
+        if(nortermck==2&&(sumTcredit-suCredit-TF+allSTC)!=0){
             if(cradit>0){
                 var t = sumgrade/(cradit-allsuCradit);
                 if(t<1.5){
-                    alert("เกรดภายใน 1/2 ไม่ถึง 1.5 มีสิทธิรีไทร์")
-                    tiredck = true;
+                        alert("เกรดเฉลี่ยรวมภายใน 1/2 ไม่ถึง 1.5 มีสิทธิรีไทร์")
+                        tiredck = true;
+                    }
                 }
-            }
         }
-        else if(vecdt[subject[0]][5]=="2/2"&&(sumTcredit-suCredit-TF+allSTC)!=0&&tiredck==false){
+        else if(nortermck==4&&(sumTcredit-suCredit-TF+allSTC)!=0&&tiredck==false){
             if(cradit>0){
                 var t = sumgrade/(cradit-allsuCradit);
                 if(t<1.75){
-                    alert("เกรดภายใน 2/2 ไม่ถึง 1.75 มีสิทธิรีไทร์")
+                    alert("เกรดเฉลี่ยรวมภายใน 2/2 ไม่ถึง 1.75 มีสิทธิรีไทร์")
                     tiredck = true;
                 }
             }
         }
-        if(arrterm.indexOf(vecdt[subject[0]][5])>=7&&(arrterm.indexOf(vecdt[subject[0]][5])+1)%3!=0&&tiredck==false){
+        else if(nortermck>=5&&(sumTcredit-suCredit-TF+allSTC)!=0&&tiredck==false){
             if(cradit>0){
                 var t = sumgrade/(cradit-allsuCradit);
                 if(t<1.75){
                     tire32ck++;
                 }
                 else{
-                    if(tire32ck>0){
-                        tire32ck--;
-                    }
+                    tire32ck = 0;
                 }
                 if(tire32ck==2){
-                    alert("เกรดไม่ถึง 1.75 ติดต่อกัน 2 เทอม มีสิทธิรีไทร์")
+                    alert("เกรดเฉลี่ยรวมไม่ถึง 1.75 ติดต่อกัน 2 เทอม มีสิทธิรีไทร์")
                     tiredck = true;
                 }
             }
         }
+
+
     }
 
     // var AverageGrade;
