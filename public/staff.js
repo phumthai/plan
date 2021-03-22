@@ -711,7 +711,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "edu"){  //02
@@ -745,7 +745,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "fineart"){  //03
@@ -775,7 +775,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "soc"){  //04
@@ -795,7 +795,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "sci"){  //05
@@ -837,7 +837,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "med"){  //07
@@ -851,7 +851,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "agri"){  //08
@@ -867,7 +867,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "dent"){  //09
@@ -881,7 +881,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "phama"){  //10
@@ -895,7 +895,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "medtec"){  //11
@@ -913,7 +913,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "nurse"){  //12
@@ -929,7 +929,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "argo"){  //13
@@ -953,7 +953,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "vet"){  //14
@@ -967,7 +967,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "accba"){  //15
@@ -985,7 +985,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "econ"){  //16
@@ -1001,7 +1001,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "arch"){  //17
@@ -1019,7 +1019,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "masscom"){  //18
@@ -1035,7 +1035,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "polsci"){  //19
@@ -1053,7 +1053,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "law"){  //20
@@ -1067,7 +1067,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else if(faculty == "camt"){  //21
@@ -1081,7 +1081,7 @@ function deshowfaculty(){
             var opts = document.createElement("option");
             opts.value = shbe[i];
             opts.text = be[i];
-            bachelor.appendChild(opts);
+            dbachelor.appendChild(opts);
         }
     }
     else{
