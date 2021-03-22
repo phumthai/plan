@@ -676,7 +676,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "human"){    //01
+    else if(dfaculty == "human"){    //01
         var be = [
             "Psychology",
             "Tourism",
@@ -714,7 +714,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "edu"){  //02
+    else if(dfaculty == "edu"){  //02
         var be = [
             "Elementary Education",
             "Early Childhood Education-Special Education",
@@ -748,7 +748,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "fineart"){  //03
+    else if(dfaculty == "fineart"){  //03
         var be = [
             "Creative Photography",
             "Design",
@@ -778,7 +778,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "soc"){  //04
+    else if(dfaculty == "soc"){  //04
         var be = [
             "Geography",
             "Sociology and Anthropology",
@@ -798,7 +798,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "sci"){  //05
+    else if(dfaculty == "sci"){  //05
         var be = [
             "Chemistry",
             "Industrial Chemistry",
@@ -840,7 +840,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "med"){  //07
+    else if(dfaculty == "med"){  //07
         var be = [
             "Doctor of Medicine Program"
         ]
@@ -854,7 +854,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "agri"){  //08
+    else if(dfaculty == "agri"){  //08
         var be = [
             "Agriculture",
             "Agricultural Economics",
@@ -870,7 +870,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "dent"){  //09
+    else if(dfaculty == "dent"){  //09
         var be = [
             "Doctor of Dental Surgery Program"
         ]
@@ -884,7 +884,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "phama"){  //10
+    else if(dfaculty == "phama"){  //10
         var be = [
             "Doctor of Pharmacy Program"
         ]
@@ -898,7 +898,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "medtec"){  //11
+    else if(dfaculty == "medtec"){  //11
         var be = [
             "Physical Therapy",
             "Occupational Therapy",
@@ -916,7 +916,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "nurse"){  //12
+    else if(dfaculty == "nurse"){  //12
         var be = [
             "Nursing",
             "Nursing (International Program)"
@@ -932,7 +932,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "argo"){  //13
+    else if(dfaculty == "argo"){  //13
         var be = [
             "Packaging Technology",
             "Product Development Technology",
@@ -956,7 +956,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "vet"){  //14
+    else if(dfaculty == "vet"){  //14
         var be = [
             "Veterinary"
         ]
@@ -970,7 +970,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "accba"){  //15
+    else if(dfaculty == "accba"){  //15
         var be = [
             "Business Administration",
             "Service Business Management",
@@ -988,7 +988,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "econ"){  //16
+    else if(dfaculty == "econ"){  //16
         var be = [
             "Economics",
             "Economics (International Program)"
@@ -1004,7 +1004,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "arch"){  //17
+    else if(dfaculty == "arch"){  //17
         var be = [
             "Landscape Architectur",
             "Integrated Design in Emerging Architecture (International Program)",
@@ -1022,7 +1022,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "masscom"){  //18
+    else if(dfaculty == "masscom"){  //18
         var be = [
             "Mass Communication",
             "Digital Film (Bilingual Program)"
@@ -1038,7 +1038,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "polsci"){  //19
+    else if(dfaculty == "polsci"){  //19
         var be = [
             "Public Administration",
             "Politics and Government",
@@ -1056,7 +1056,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "law"){  //20
+    else if(dfaculty == "law"){  //20
         var be = [
             "Laws"
         ]
@@ -1070,7 +1070,7 @@ function deshowfaculty(){
             dbachelor.appendChild(opts);
         }
     }
-    else if(faculty == "camt"){  //21
+    else if(dfaculty == "camt"){  //21
         var be = [
             "Camp"
         ]
