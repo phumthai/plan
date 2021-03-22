@@ -122,6 +122,414 @@ function showfaculty(){
             bachelor.appendChild(opt);
         }
     }
+    else if(faculty == "human"){    //01
+        var be = [
+            "Psychology",
+            "Tourism",
+            "Chinese",
+            "Thai",
+            "Thai as a Foreign Language",
+            "Home and Community",
+            "History",
+            "Philosophy",
+            "Japanese",
+            "French",
+            "Myanmar Language and Culture",
+            "English",
+            "Information Studies"
+        ]
+        var shbe = [
+            "psy",
+            "tour",
+            "china",
+            "thai",
+            "thaifore",
+            "hnc",
+            "his",
+            "phi",
+            "jp",
+            "fr",
+            "myan",
+            "eng",
+            "info"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "edu"){  //02
+        var be = [
+            "Elementary Education",
+            "Early Childhood Education-Special Education",
+            "Mathematics",
+            "Chemistry",
+            "Biology",
+            "Physical Education",
+            "Physics",
+            "Thai",
+            "English",
+            "Art Education",
+            "Social Studies"
+        ]
+        var shbe = [
+            "elementedu",
+            "earlychild",
+            "math",
+            "chemi",
+            "bio",
+            "physicaledu",
+            "phy",
+            "th",
+            "eng",
+            "art",
+            "socedu"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "fineart"){  //03
+        var be = [
+            "Creative Photography",
+            "Design",
+            "Painting",
+            "Sculpture",
+            "Performing Arts",
+            "Thai Art",
+            "Printmaking",
+            "Multidisciplinary Art",
+            "Media Arts and Design"
+        ]
+        var shbe = [
+            "crephoto",
+            "design",
+            "paint",
+            "sculpture",
+            "perart",
+            "thaiart",
+            "printmake",
+            "multiart",
+            "mediaart"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "soc"){  //04
+        var be = [
+            "Geography",
+            "Sociology and Anthropology",
+            "Social Science (International Program)",
+            "ASEAN Studies"
+        ]
+        var shbe = [
+            "geo",
+            "socandant",
+            "socsci",
+            "asean"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "sci"){  //05
+        var be = [
+            "Chemistry",
+            "Industrial Chemistry",
+            "Microbiology",
+            "Biochemistry and Biochemical Technology",
+            "Biology",
+            "Geology",
+            "Physics",
+            "Materials Science",
+            "Zoology",
+            "Mathematics",
+            "Data Science",
+            "Computer Science",
+            "Environmental Science (International Program)",
+            "Statistics",
+            "Gemology"
+        ]
+        var shbe = [
+            "chemi",
+            "induschemi",
+            "microbio",
+            "biochemi",
+            "bio",
+            "geo",
+            "physic",
+            "material",
+            "zoo",
+            "math",
+            "data",
+            "com",
+            "envi",
+            "stat",
+            "gem"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "med"){  //07
+        var be = [
+            "Doctor of Medicine Program"
+        ]
+        var shbe = [
+            "doc"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "agri"){  //08
+        var be = [
+            "Agriculture",
+            "Agricultural Economics",
+        ]
+        var shbe = [
+            "argi",
+            "argieco"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "dent"){  //09
+        var be = [
+            "Doctor of Dental Surgery Program"
+        ]
+        var shbe = [
+            "dent"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "phama"){  //10
+        var be = [
+            "Doctor of Pharmacy Program"
+        ]
+        var shbe = [
+            "phama"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "medtec"){  //11
+        var be = [
+            "Physical Therapy",
+            "Occupational Therapy",
+            "Radiologic Technology"
+        ]
+        var shbe = [
+            "phy",
+            "occ",
+            "redio"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "nurse"){  //12
+        var be = [
+            "Nursing",
+            "Nursing (International Program)"
+        ]
+        var shbe = [
+            "nurse",
+            "nurseinter"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "argo"){  //13
+        var be = [
+            "Packaging Technology",
+            "Product Development Technology",
+            "Agro-Industrial Biotechnology",
+            "Marine Product Technology",
+            "Food Science and Technology",
+            "Food Process Engineering"
+        ]
+        var shbe = [
+            "pack",
+            "productdev",
+            "biotec",
+            "marine",
+            "foodsci",
+            "foodproc"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "vet"){  //14
+        var be = [
+            "Veterinary"
+        ]
+        var shbe = [
+            "vet"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "accba"){  //15
+        var be = [
+            "Business Administration",
+            "Service Business Management",
+            "Accountancy"
+        ]
+        var shbe = [
+            "bus",
+            "service",
+            "account"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "econ"){  //16
+        var be = [
+            "Economics",
+            "Economics (International Program)"
+        ]
+        var shbe = [
+            "eco",
+            "ecointer"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "arch"){  //17
+        var be = [
+            "Landscape Architectur",
+            "Integrated Design in Emerging Architecture (International Program)",
+            "Architecture"
+        ]
+        var shbe = [
+            "landarch",
+            "interdesign",
+            "arch"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "masscom"){  //18
+        var be = [
+            "Mass Communication",
+            "Digital Film (Bilingual Program)"
+        ]
+        var shbe = [
+            "masscom",
+            "digfilm"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "polsci"){  //19
+        var be = [
+            "Public Administration",
+            "Politics and Government",
+            "International Affairs"
+        ]
+        var shbe = [
+            "public",
+            "politic",
+            "inter"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "law"){  //20
+        var be = [
+            "Laws"
+        ]
+        var shbe = [
+            "law"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
+    else if(faculty == "camt"){  //21
+        var be = [
+            "Camp"
+        ]
+        var shbe = [
+            "camp"
+        ]
+        for(var i=0;i<be.length;i++){
+            var opts = document.createElement("option");
+            opts.value = shbe[i];
+            opts.text = be[i];
+            bachelor.appendChild(opts);
+        }
+    }
     else{
         var opt = document.createElement("option");
         opt.value = "test";
